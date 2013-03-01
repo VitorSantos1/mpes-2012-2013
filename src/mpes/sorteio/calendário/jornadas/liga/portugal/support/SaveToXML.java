@@ -36,10 +36,6 @@ public class SaveToXML {
         errorMsg = new String();
     }
     
-    public Championship getChampionship(){
-        return c;
-    }
-    
     public String getErrorMsg(){
         return errorMsg;
     }

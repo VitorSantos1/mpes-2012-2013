@@ -139,13 +139,18 @@ public class LoadSaveTeams extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadTeamsAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadTeamsAction
-        LoadXML loaderEngine = new LoadXML(c, loadTeamsField.getText());
+        LoadXML loaderEngine = new LoadXML(loadTeamsField.getText());
         
         if(loaderEngine.start()){
-            //View operations.
+            JOptionPane.showMessageDialog(this, "Carregamento efectuado com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);
+            this.setVisible(false);
+            new MainWindow(loaderEngine.getChampionship()).setVisible(true);
         }
         else{
-            //View operations.
+            JOptionPane.showMessageDialog(this, 
+                    "Garregamento cancelado!" + "\n" + "Motivo: " + loaderEngine.getErrorMsg(), 
+                    "Erro", 
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_loadTeamsAction
 
