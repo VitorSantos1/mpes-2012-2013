@@ -50,7 +50,9 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="okButton" min="-2" max="-2" attributes="0"/>
+                                  <Component id="loadTeamsButton" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="saveTeamsButton" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                                   <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -63,7 +65,7 @@
                       <Component id="saveTeamsSearchLocationButton" max="32767" attributes="0"/>
                       <Component id="loadTeamsSearchLocationButton" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="17" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -84,8 +86,9 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="okButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="loadTeamsButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="saveTeamsButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="19" max="32767" attributes="0"/>
               </Group>
@@ -117,15 +120,26 @@
             <Property name="text" type="java.lang.String" value="Procurar..."/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="okButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="OK"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="cancelButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="loadTeamsButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Carregar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="loadTeamsAction"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="saveTeamsButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Gravar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="saveTeamsAction"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

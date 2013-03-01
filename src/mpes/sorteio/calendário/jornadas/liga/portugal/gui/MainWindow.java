@@ -96,6 +96,11 @@ public class MainWindow extends javax.swing.JFrame {
         teamListScrollpane.setViewportView(teamList);
 
         loadSaveTeamsButton.setText("Gravar/Carregar");
+        loadSaveTeamsButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loadSaveTeamsAction(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout teamManagementPanelLayout = new org.jdesktop.layout.GroupLayout(teamManagementPanel);
         teamManagementPanel.setLayout(teamManagementPanelLayout);
@@ -253,6 +258,11 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_deleteTeamAction
+
+    private void loadSaveTeamsAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadSaveTeamsAction
+        new LoadSaveTeams(c).setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_loadSaveTeamsAction
 
     /**
      * @param args the command line arguments
