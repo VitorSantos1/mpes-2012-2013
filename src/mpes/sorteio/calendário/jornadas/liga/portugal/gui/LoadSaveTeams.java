@@ -4,6 +4,8 @@
  */
 package mpes.sorteio.calendário.jornadas.liga.portugal.gui;
 
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
 import mpes.sorteio.calendário.jornadas.liga.portugal.support.LoadXML;
@@ -54,12 +56,27 @@ public class LoadSaveTeams extends javax.swing.JFrame {
         saveTeamsLabel.setText("Gravar Equipas");
 
         saveTeamsSearchLocationButton.setText("Procurar...");
+        saveTeamsSearchLocationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveTeamsSearchLocationButtonActionPerformed(evt);
+            }
+        });
 
         loadTeamsLabel.setText("Carregar Equipas");
 
         loadTeamsSearchLocationButton.setText("Procurar...");
+        loadTeamsSearchLocationButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                loadTeamsFileSearchAction(evt);
+            }
+        });
 
         cancelButton.setText("Cancelar");
+        cancelButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cancelButtonAction(evt);
+            }
+        });
 
         loadTeamsButton.setText("Carregar");
         loadTeamsButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -169,6 +186,31 @@ public class LoadSaveTeams extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_saveTeamsAction
+
+    private void saveTeamsSearchLocationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveTeamsSearchLocationButtonActionPerformed
+        JFileChooser jfc = new JFileChooser();
+        jfc.showSaveDialog(jfc);
+        File destinationFile = jfc.getSelectedFile();
+        
+        if(destinationFile != null){
+            saveTeamsField.setText(destinationFile.getPath());
+        }
+    }//GEN-LAST:event_saveTeamsSearchLocationButtonActionPerformed
+
+    private void cancelButtonAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelButtonAction
+       this.setVisible(false);
+       new MainWindow(c).setVisible(true);
+    }//GEN-LAST:event_cancelButtonAction
+
+    private void loadTeamsFileSearchAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loadTeamsFileSearchAction
+        JFileChooser jfc = new JFileChooser();
+        jfc.showOpenDialog(jfc);
+        File fileToLoad = jfc.getSelectedFile();
+        
+        if(fileToLoad != null){
+            loadTeamsField.setText(fileToLoad.getPath());
+        }
+    }//GEN-LAST:event_loadTeamsFileSearchAction
 
     /**
      * @param args the command line arguments

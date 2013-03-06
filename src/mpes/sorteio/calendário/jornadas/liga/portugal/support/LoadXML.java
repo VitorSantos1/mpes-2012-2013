@@ -41,7 +41,7 @@ public class LoadXML {
     
     public boolean start(){
         try{
-            File fXmlFile = new File("/Users/mkyong/staff.xml");
+            File fXmlFile = new File(address);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);

@@ -107,6 +107,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Procurar..."/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveTeamsSearchLocationButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="loadTeamsLabel">
           <Properties>
@@ -119,11 +122,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Procurar..."/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="loadTeamsFileSearchAction"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="cancelButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cancelButtonAction"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="loadTeamsButton">
           <Properties>
