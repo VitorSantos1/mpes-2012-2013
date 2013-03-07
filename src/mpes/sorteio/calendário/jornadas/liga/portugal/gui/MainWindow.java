@@ -22,6 +22,7 @@ public class MainWindow extends javax.swing.JFrame {
      */
     private Championship c;
     private DefaultListModel dlm;
+    private String algorithmType = "";
     
     /**
      * Creates new form MainWindow
@@ -157,6 +158,11 @@ public class MainWindow extends javax.swing.JFrame {
         calendarScrollPane.setViewportView(calendarTable);
 
         optionsButton.setText("Opções");
+        optionsButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                optionsAction(evt);
+            }
+        });
 
         generateCalendarButton.setText("Gerar Calendário");
 
@@ -274,6 +280,20 @@ public class MainWindow extends javax.swing.JFrame {
         new LoadSaveTeams(c).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_loadSaveTeamsAction
+
+    private void optionsAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optionsAction
+        Object[] possibilities = {"Algoritmo genético orientado a equipas visitadas", 
+            "Algoritmo genético orientado a jornadas",
+            "Pesquisa Tabu"};
+        
+        algorithmType = (String) JOptionPane.showInputDialog(this,
+                "Escolha o algoritmo que pretende utilizar para gerar o calendário:",
+                "Opção de geração",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                possibilities,
+                "Seleccionar...");
+    }//GEN-LAST:event_optionsAction
 
     /**
      * @param args the command line arguments

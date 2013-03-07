@@ -143,30 +143,39 @@ public class SingleTeamWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void acceptChangesAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acceptChangesAction
-        if(editableTeam == null){
-            if(newEntryValidation()){
-                this.setVisible(false);
-                new MainWindow(c).setVisible(true);
+        if(!((String) teamDistrictComboBox.getSelectedItem()).equals("Seleccionar...") &&
+                !((String) teamTypeComboBox.getSelectedItem()).equals("Seleccionar...")){
+            if(editableTeam == null){
+                if(newEntryValidation()){
+                    this.setVisible(false);
+                    new MainWindow(c).setVisible(true);
+                }
+                else{
+                    JOptionPane.showMessageDialog(this,
+                    "Deverá incluir uma equipa que não tenha as mesmas características que uma já presente.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+                }
+            } 
+            else if(editableTeam != null){
+                if(editEntryValidation()){
+                    this.setVisible(false);
+                    new MainWindow(c).setVisible(true);
+                }
+                else{
+                    JOptionPane.showMessageDialog(this,
+                    "Deverá alterar uma equipa já existente.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+                }
             }
-            else{
-                JOptionPane.showMessageDialog(this,
-                "Deverá incluir uma equipa que não tenha as mesmas características que uma já presente.",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE);
-            }
-        } 
-        else if(editableTeam != null){
-            if(editEntryValidation()){
-                this.setVisible(false);
-                new MainWindow(c).setVisible(true);
-            }
-            else{
-                JOptionPane.showMessageDialog(this,
-                "Deverá alterar uma equipa já existente.",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE);
-            }
-        } 
+        }
+        else{
+            JOptionPane.showMessageDialog(this,
+            "Deverá seleccionar um distrito e/ou um tipo para a equipa.",
+            "Erro",
+            JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_acceptChangesAction
 
     private void cancelAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelAction
