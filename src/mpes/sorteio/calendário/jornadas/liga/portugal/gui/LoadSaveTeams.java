@@ -98,22 +98,24 @@ public class LoadSaveTeams extends javax.swing.JFrame {
             loadSaveTeamsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(loadSaveTeamsPanelLayout.createSequentialGroup()
                 .add(26, 26, 26)
-                .add(loadSaveTeamsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                .add(loadSaveTeamsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(loadSaveTeamsPanelLayout.createSequentialGroup()
                         .add(saveTeamsLabel)
                         .add(18, 18, 18)
                         .add(saveTeamsField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 294, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(loadSaveTeamsPanelLayout.createSequentialGroup()
                         .add(loadTeamsLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(loadSaveTeamsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(loadSaveTeamsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(loadSaveTeamsPanelLayout.createSequentialGroup()
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(loadTeamsButton)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(saveTeamsButton)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(8, 8, 8)
                                 .add(cancelButton))
-                            .add(loadTeamsField))))
+                            .add(loadSaveTeamsPanelLayout.createSequentialGroup()
+                                .add(5, 5, 5)
+                                .add(loadTeamsField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 294, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(loadSaveTeamsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                     .add(saveTeamsSearchLocationButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -172,7 +174,7 @@ public class LoadSaveTeams extends javax.swing.JFrame {
     }//GEN-LAST:event_loadTeamsAction
 
     private void saveTeamsAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_saveTeamsAction
-        SaveToXML saverEngine = new SaveToXML(c, loadTeamsField.getText());
+        SaveToXML saverEngine = new SaveToXML(c, saveTeamsField.getText());
         
         if(saverEngine.start()){
             JOptionPane.showMessageDialog(this, "Gravação efectuada com sucesso!", "Informação", JOptionPane.INFORMATION_MESSAGE);

@@ -31,12 +31,10 @@ public class SingleTeamWindow extends javax.swing.JFrame {
         initComponents();
         
         teamNameTextField.setText(editableTeam.getTeamName());
-        //Implement all others.
+        teamDistrictComboBox.setSelectedItem((String) editableTeam.getTeamDistrict());
+        teamTypeComboBox.setSelectedItem((String) editableTeam.getTeamType());
     }
     
-    //TODO: Implement SingleTeamWindow Constructor with a team as a parameter.
-     
-
     /**
      * This method is called from within the constructor to initialise the form.
      * WARNING: Do NOT modify this code. The content of this method is always

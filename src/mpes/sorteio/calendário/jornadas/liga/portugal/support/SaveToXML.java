@@ -76,12 +76,12 @@ public class SaveToXML {
                 
                 //District tag
                 Element teamDistrict = doc.createElement("district");
-                teamName.appendChild(doc.createTextNode(t.getTeamDistrict()));
+                teamDistrict.appendChild(doc.createTextNode(t.getTeamDistrict()));
                 team.appendChild(teamDistrict);
                 
                 //Type tag
                 Element teamType = doc.createElement("type");
-                teamName.appendChild(doc.createTextNode(t.getTeamType()));
+                teamType.appendChild(doc.createTextNode(t.getTeamType()));
                 team.appendChild(teamType);
             }
             
@@ -89,7 +89,7 @@ public class SaveToXML {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(address));   
+            StreamResult result = new StreamResult(new File(address).toURI().getPath());   
             
             transformer.transform(source, result);
             

@@ -146,6 +146,9 @@
                       <StringArray count="0"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="dlm = new DefaultListModel();&#xa;&#xa;for(Team t : c.getTeams()){&#xa;    dlm.addElement(t.getTeamName());&#xa;}&#xa;        &#xa;teamList = new JList(dlm);"/>
+                  </AuxValues>
                 </Component>
               </SubComponents>
             </Container>

@@ -28,6 +28,7 @@ public class LoadXML {
     
     public LoadXML(String newAddress){
         c = new Championship();
+        address = newAddress;
         errorMsg = new String();
     }
     
@@ -53,7 +54,7 @@ public class LoadXML {
             for(int i = 0; i < nList.getLength(); i++){
                 Node n = nList.item(i);
                 
-                if(n.getNodeName().equals(Node.ELEMENT_NODE)){
+                if(n.getNodeName().equals("team")){
                     Element e = (Element) n;
                     
                     Team t = new Team(e.getElementsByTagName("name").item(0).getTextContent(), 
