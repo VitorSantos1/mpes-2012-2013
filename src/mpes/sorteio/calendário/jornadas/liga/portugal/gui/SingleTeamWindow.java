@@ -64,7 +64,7 @@ public class SingleTeamWindow extends javax.swing.JFrame {
 
         teamTypeLabel.setText("Tipo:");
 
-        teamTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccionar...", "Equipa Grande", "Equipa Pequena", "Equipa \"B\"" }));
+        teamTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccionar...", "Equipa Grande", "Equipa Pequena", "Equipa \"B\" Grande", "Equipa \"B\"" }));
 
         okButton.setText("OK");
         okButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -98,7 +98,7 @@ public class SingleTeamWindow extends javax.swing.JFrame {
                                 .add(singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                                     .add(org.jdesktop.layout.GroupLayout.LEADING, teamTypeComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .add(org.jdesktop.layout.GroupLayout.LEADING, teamDistrictComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 21, Short.MAX_VALUE))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 15, Short.MAX_VALUE))
                             .add(teamNameTextField)))
                     .add(singleTeamPanelLayout.createSequentialGroup()
                         .add(cancelButton)

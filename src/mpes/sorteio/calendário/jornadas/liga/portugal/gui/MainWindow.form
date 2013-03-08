@@ -227,6 +227,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Gerar Calend&#xe1;rio"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="generateCalendarAction"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

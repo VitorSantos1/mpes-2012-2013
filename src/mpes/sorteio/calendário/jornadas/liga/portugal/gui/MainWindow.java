@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import mpes.sorteio.calendário.jornadas.liga.portugal.genetic.algorithm.generation.GenerationLauncher;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Team;
 
@@ -165,6 +166,11 @@ public class MainWindow extends javax.swing.JFrame {
         });
 
         generateCalendarButton.setText("Gerar Calendário");
+        generateCalendarButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                generateCalendarAction(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout calendarPanelLayout = new org.jdesktop.layout.GroupLayout(calendarPanel);
         calendarPanel.setLayout(calendarPanelLayout);
@@ -293,7 +299,24 @@ public class MainWindow extends javax.swing.JFrame {
                 null,
                 possibilities,
                 "Seleccionar...");
+        
+        if(algorithmType.equals(possibilities[0])){
+            algorithmType = "GA-HT";
+        }
+        else if(algorithmType.equals(possibilities[1])){
+            algorithmType = "GA-M";
+        }
+        else if(algorithmType.equals(possibilities[2])){
+            algorithmType = "TS";
+        }
     }//GEN-LAST:event_optionsAction
+
+    private void generateCalendarAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateCalendarAction
+        GenerationLauncher gl = new GenerationLauncher(c, algorithmType);
+        
+        //At the end of generation, the main window should be able to print the results into the jTable.
+        //Also, printing metadata like number os generations and time consumed must be useful to show...
+    }//GEN-LAST:event_generateCalendarAction
 
     /**
      * @param args the command line arguments
