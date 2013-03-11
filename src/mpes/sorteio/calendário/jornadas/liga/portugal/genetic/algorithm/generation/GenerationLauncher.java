@@ -4,7 +4,9 @@
  */
 package mpes.sorteio.calendário.jornadas.liga.portugal.genetic.algorithm.generation;
 
+import java.util.ArrayList;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
+import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
 
 /**
  *
@@ -41,7 +43,51 @@ public class GenerationLauncher {
     
     //Insertion of forbidden games.
     public void insertForbiddenGames(){
+       ArrayList<Game> candidateGames = new ArrayList<Game>();
+        
+       Game scpXfcp = new Game(c.getTeamByName("Sporting CP"), c.getTeamByName("FC Porto"));
+       Game fcpXscp = scpXfcp.reverseTeams();
+       candidateGames.add(scpXfcp);
+       candidateGames.add(fcpXscp);
        
+       Game scpXslb = new Game(c.getTeamByName("Sporting CP"), c.getTeamByName("SL Benfica"));
+       Game slbXscp = scpXslb.reverseTeams();
+       candidateGames.add(scpXslb);
+       candidateGames.add(slbXscp);
+       
+       Game slbXfcp = new Game(c.getTeamByName("SL Benfica"), c.getTeamByName("FC Porto"));
+       Game fcpXslb = slbXfcp.reverseTeams();
+       candidateGames.add(slbXfcp);
+       candidateGames.add(fcpXslb);
+       
+       Game cdnXcsm = new Game(c.getTeamByName("CD Nacional"), c.getTeamByName("CS Marítimo"));
+       Game csmXcdn = cdnXcsm.reverseTeams();
+       candidateGames.add(cdnXcsm);
+       candidateGames.add(csmXcdn);
+       
+       Game scbXvsc = new Game(c.getTeamByName("SC Braga"), c.getTeamByName("Vitória SC"));
+       Game vscXscb = scbXvsc.reverseTeams();
+       candidateGames.add(scbXvsc);
+       candidateGames.add(vscXscb);
+       
+       Game cfuXcsm = new Game(c.getTeamByName("CF União"), c.getTeamByName("CS Marítimo"));
+       Game csmXcfu = cfuXcsm.reverseTeams();
+       candidateGames.add(cfuXcsm);
+       candidateGames.add(csmXcfu);
+       
+       ArrayList<Integer> forbiddenMatchDays = new ArrayList<Integer>();
+       forbiddenMatchDays.add(1);
+       forbiddenMatchDays.add(2);
+       forbiddenMatchDays.add(3);
+       forbiddenMatchDays.add(4);
+       
+       GameRestrictions.getForbiddenGames().clear();
+       
+       for(Game g : candidateGames){
+           if(g.getVisitedTeam() != null && g.getVisitorTeam() != null){
+               GameRestrictions.getForbiddenGames().put(g, forbiddenMatchDays);
+           }
+       }
     }
     
     //Determine the size of gene, according to how the GA will be operated.
@@ -51,14 +97,14 @@ public class GenerationLauncher {
             nTeams += 1;
         }    
          
-        double powerOfTwoBase = 1;
+        double powerOfTwoExponent = 1;
             
-        while(Math.pow(powerOfTwoBase, 2.0) < nTeams){
-            powerOfTwoBase++;
+        while(Math.pow(2.0, powerOfTwoExponent) < nTeams){
+            powerOfTwoExponent++;
         }
         
         
-        return (int) powerOfTwoBase;
+        return (int) powerOfTwoExponent;
     }
     
     //Initialization of generation launcher

@@ -27,4 +27,14 @@ public class Championship {
     public HashMap<Integer, Matchday> getMatchDays(){
         return matchDays;
     }
+    
+    public Team getTeamByName(String name){
+        for(Team t : teams){
+            if(t.getTeamName().equalsIgnoreCase(name)){
+                return t;
+            }
+        }
+        
+        return null;
+    }
 }

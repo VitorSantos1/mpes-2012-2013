@@ -37,4 +37,8 @@ public class Game {
     public void setVisitorTeam(Team visitor){
         visitorTeam = visitor;
     }
+    
+    public Game reverseTeams(){
+        return new Game(this.visitorTeam, this.visitedTeam);
+    }
 }

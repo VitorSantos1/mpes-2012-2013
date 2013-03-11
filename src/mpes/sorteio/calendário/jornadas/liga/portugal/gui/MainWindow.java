@@ -309,6 +309,9 @@ public class MainWindow extends javax.swing.JFrame {
         else if(algorithmType.equals(possibilities[2])){
             algorithmType = "TS";
         }
+        else{
+            algorithmType = "";
+        }
     }//GEN-LAST:event_optionsAction
 
     private void generateCalendarAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateCalendarAction
