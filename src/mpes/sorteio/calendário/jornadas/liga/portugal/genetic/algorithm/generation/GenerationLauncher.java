@@ -5,8 +5,22 @@
 package mpes.sorteio.calendário.jornadas.liga.portugal.genetic.algorithm.generation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
+import org.uncommons.maths.binary.BitString;
+import org.uncommons.maths.random.MersenneTwisterRNG;
+import org.uncommons.maths.random.Probability;
+import org.uncommons.watchmaker.framework.EvolutionaryOperator;
+import org.uncommons.watchmaker.framework.GenerationalEvolutionEngine;
+import org.uncommons.watchmaker.framework.factories.BitStringFactory;
+import org.uncommons.watchmaker.framework.operators.BitStringCrossover;
+import org.uncommons.watchmaker.framework.operators.BitStringMutation;
+import org.uncommons.watchmaker.framework.operators.EvolutionPipeline;
+import org.uncommons.watchmaker.framework.selection.StochasticUniversalSampling;
 
 /**
  *
@@ -27,6 +41,8 @@ public class GenerationLauncher {
     
     private Championship c;
     private String algorithmType;
+    
+    private static final int TARGET_FITNESS = 500;
     
     public GenerationLauncher(Championship newC, String aT){
         c = newC;
@@ -91,7 +107,7 @@ public class GenerationLauncher {
     }
     
     //Determine the size of gene, according to how the GA will be operated.
-    public int determineGeneSize(int nTeams){
+    public int determineTeamGeneSize(int nTeams){
         if(algorithmType.equals("GA-HT")){
             //Adding a sequence for all 0's.
             nTeams += 1;
@@ -103,12 +119,32 @@ public class GenerationLauncher {
             powerOfTwoExponent++;
         }
         
-        
         return (int) powerOfTwoExponent;
+    }
+    
+    public int determineGeneSize(){
+        int teamGeneSize = this.determineTeamGeneSize(c.getTeams().size());
+        
+        //GA-HT: team * n de equipas adversárias * n de equipas total
+        //GA-M: jornada * n de equipas total * n de jornadas (= n de equipas - 1)
+        return teamGeneSize * (c.getTeams().size() - 1) * c.getTeams().size();
     }
     
     //Initialization of generation launcher
     public void start(){
+        BitStringFactory bsf = new BitStringFactory(this.determineGeneSize());
+        List<EvolutionaryOperator<BitString>> operators = new LinkedList<EvolutionaryOperator<BitString>>();
         
+        //TODO: Operators to experiment different parameters
+        operators.add(new BitStringCrossover()); 
+        operators.add(new BitStringMutation(new Probability(0.02)));
+        
+        EvolutionaryOperator<BitString> pipeline = new EvolutionPipeline<BitString>(operators);
+        
+        GenerationalEvolutionEngine gee = new GenerationalEvolutionEngine(bsf, 
+                pipeline,
+                new GamesGenerationFitnessEvaluator(),
+                new StochasticUniversalSampling(),
+                new MersenneTwisterRNG());
     }
 }

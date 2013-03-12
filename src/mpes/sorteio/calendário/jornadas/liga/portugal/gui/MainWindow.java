@@ -24,7 +24,7 @@ public class MainWindow extends javax.swing.JFrame {
     private Championship c;
     private DefaultListModel dlm;
     private String algorithmType = "";
-    
+
     /**
      * Creates new form MainWindow
      */
@@ -33,13 +33,12 @@ public class MainWindow extends javax.swing.JFrame {
         initComponents();
     }
 
-    public MainWindow(Championship newC){
+    public MainWindow(Championship newC) {
         c = newC;
         initComponents();
     }
-    
+
     //TODO: Implement MainWindow Constructor with the complete set of teams as a parameter.
-    
     /**
      * This method is called from within the constructor to initialise the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -239,41 +238,40 @@ public class MainWindow extends javax.swing.JFrame {
     private void editTeamAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editTeamAction
         String teamNameToSearch = (String) teamList.getSelectedValue();
         Team teamToEdit = new Team();
-        
-        for(Team t : c.getTeams()){
-            if(t.getTeamName().equalsIgnoreCase(teamNameToSearch)){
+
+        for (Team t : c.getTeams()) {
+            if (t.getTeamName().equalsIgnoreCase(teamNameToSearch)) {
                 teamToEdit = t;
                 break;
             }
         }
-        
-        if(!teamToEdit.getTeamName().equals("")){
+
+        if (!teamToEdit.getTeamName().equals("")) {
             SingleTeamWindow stw = new SingleTeamWindow(c, teamToEdit);
             this.setVisible(false);
-            stw.setVisible(true);   
-        }
-        else{
+            stw.setVisible(true);
+        } else {
             JOptionPane.showMessageDialog(this,
-                "Deverá seleccionar uma equipa para edição.",
-                "Erro",
-                JOptionPane.ERROR_MESSAGE);
+                    "Deverá seleccionar uma equipa para edição.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_editTeamAction
 
     private void deleteTeamAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteTeamAction
         Object[] options = {"Sim", "Não"};
-        int optionIndex = JOptionPane.showOptionDialog(this, 
-                "Tem a certeza desta operação?", 
-                "Confirmação de Acção", 
+        int optionIndex = JOptionPane.showOptionDialog(this,
+                "Tem a certeza desta operação?",
+                "Confirmação de Acção",
                 JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,null, options, options[0]);
-        
-        if(optionIndex == JOptionPane.YES_OPTION){
+                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        if (optionIndex == JOptionPane.YES_OPTION) {
             String teamNameToSearch = (String) teamList.getSelectedValue();
             ArrayList<Team> teams = c.getTeams();
-        
-            for(int i = 0; i < teams.size(); i++){
-                if(teams.get(i).getTeamName().equalsIgnoreCase(teamNameToSearch)){
+
+            for (int i = 0; i < teams.size(); i++) {
+                if (teams.get(i).getTeamName().equalsIgnoreCase(teamNameToSearch)) {
                     teams.remove(i);
                     dlm.removeElementAt(i);
                     break;
@@ -288,10 +286,10 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_loadSaveTeamsAction
 
     private void optionsAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optionsAction
-        Object[] possibilities = {"Algoritmo genético orientado a equipas visitadas", 
+        Object[] possibilities = {"Algoritmo genético orientado a equipas visitadas",
             "Algoritmo genético orientado a jornadas",
             "Pesquisa Tabu"};
-        
+
         algorithmType = (String) JOptionPane.showInputDialog(this,
                 "Escolha o algoritmo que pretende utilizar para gerar o calendário:",
                 "Opção de geração",
@@ -299,24 +297,21 @@ public class MainWindow extends javax.swing.JFrame {
                 null,
                 possibilities,
                 "Seleccionar...");
-        
-        if(algorithmType.equals(possibilities[0])){
-            algorithmType = "GA-HT";
-        }
-        else if(algorithmType.equals(possibilities[1])){
-            algorithmType = "GA-M";
-        }
-        else if(algorithmType.equals(possibilities[2])){
-            algorithmType = "TS";
-        }
-        else{
-            algorithmType = "";
+
+        if (algorithmType != null) {
+            if (algorithmType.equals(possibilities[0])) {
+                algorithmType = "GA-HT";
+            } else if (algorithmType.equals(possibilities[1])) {
+                algorithmType = "GA-M";
+            } else if (algorithmType.equals(possibilities[2])) {
+                algorithmType = "TS";
+            }
         }
     }//GEN-LAST:event_optionsAction
 
     private void generateCalendarAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateCalendarAction
         GenerationLauncher gl = new GenerationLauncher(c, algorithmType);
-        
+
         //At the end of generation, the main window should be able to print the results into the jTable.
         //Also, printing metadata like number os generations and time consumed must be useful to show...
     }//GEN-LAST:event_generateCalendarAction
