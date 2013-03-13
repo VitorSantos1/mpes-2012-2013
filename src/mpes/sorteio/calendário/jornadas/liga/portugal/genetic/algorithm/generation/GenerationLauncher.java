@@ -143,7 +143,7 @@ public class GenerationLauncher {
         
         GenerationalEvolutionEngine gee = new GenerationalEvolutionEngine(bsf, 
                 pipeline,
-                new GamesGenerationFitnessEvaluator(),
+                new GamesGenerationFitnessEvaluator(c.getTeams(), this.determineTeamGeneSize(c.getTeams().size())),
                 new StochasticUniversalSampling(),
                 new MersenneTwisterRNG());
     }
