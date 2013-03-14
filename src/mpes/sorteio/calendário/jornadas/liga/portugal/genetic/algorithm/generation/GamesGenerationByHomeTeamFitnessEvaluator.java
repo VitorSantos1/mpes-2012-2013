@@ -22,8 +22,14 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     public int nBitsPerTeam;
     public HashMap<BitString, Team> teamsByGene;
     public String awayGame;
+    
     public static final int OPTIMAL_SOLUTION = 500;
     public static final int MIRROR_IMAGE_PENALTY_VALUE = 300;
+    public static final int MORE_THAN_ONE_GAME_AGAINST_THE_SAME_TEAM_PENALTY_VALUE = 200;
+    public static final int DOESNT_RECEIVE_ALL_TEAMS_PENALTY_VALUE = 200;
+    public static final int DOESNT_VISIT_ALL_TEAMS_PENALTY_VALUE = 200;
+    public static final int GAMES_MISMATCH_PENALTY_VALUE = 300;
+    
     public static final int BOTH_GAMES_IN_HOME_OR_AWAY_PENALTY_VALUE = 30;
     public static final int MORE_THAN_ONE_BIG_GAME_IN_THE_SAME_STADIUM_PENALTY_VALUE = 50;
     public static final int MORE_THAN_ONE_REGIONAL_TEAM_AWAY_PENALTY_VALUE = 30;
@@ -31,7 +37,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     public static final int MORE_THAN_TWO_CONSECUTIVE_BIG_GAMES_PENALTY_VALUE = 50;
     public static final int FORBIDDEN_GAME_PENALTY_VALUE = 50;
     public static final int MORE_THAN_ONE_CONSECUTIVE_HOME_OR_AWAY_GAME_PENALTY_VALUE = 15;
-    public static final int MORE_THAN_ONE_GAME_AGAINST_THE_SAME_TEAM_PENALTY_VALUE = 200;
+    
 
     public GamesGenerationByHomeTeamFitnessEvaluator(ArrayList<Team> t, int nBits) {
         teams = t;
@@ -67,6 +73,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
             fitness += this.detectIfFirstAndLastGameAreBothAwayOrHome(candidateCalendar, key);
             fitness += this.detectMirrorImageOfHomeTeam(candidateCalendar, key);
             fitness += this.detectTwoOrMoreGamesWithTheSameOpponent(candidateCalendar, key, keyArray);
+            fitness += this.detectNumberOfVisitedTeams(candidateCalendar, key);
         }
 
         return fitness;
@@ -114,6 +121,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     }
 
     //Fitness computing functions
+    //Restrictions Appliers
     public double detectForbiddenGames(HashMap<BitString, String> candidateCalendar, BitString[] keyArray) {
         double penalty = 0.0;
 
@@ -178,6 +186,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         return penalty;
     }
 
+    //Solution Consistency Fitness Evaluators
     //Detects if a team has a gene that corresponds to himself.
     public double detectMirrorImageOfHomeTeam(HashMap<BitString, String> candidateCalendar, BitString key) {
         double penalty = 0.0;
@@ -222,6 +231,76 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
                 nTimes++;
             }
         }
+
+        return penalty;
+    }
+    
+    public double detectNumberOfVisitedTeams(HashMap<BitString, String> candidateCalendar, BitString key){
+        double penalty = 0.0;
+
+        String aCalendar = candidateCalendar.get(key);
+        double gamesCounter = 0.0;
+        double visitedTeamsCounter = 0.0;
+        
+        while (!(aCalendar.length() <= 0)) {
+            String sequence = aCalendar.substring(0, nBitsPerTeam);
+            
+            if(!sequence.equalsIgnoreCase(this.awayGame)){
+                visitedTeamsCounter++;
+            }
+            
+            gamesCounter++;
+        }
+        
+        if(gamesCounter % 2 == 0){
+            if(visitedTeamsCounter != (gamesCounter / 2)){
+                penalty -= DOESNT_RECEIVE_ALL_TEAMS_PENALTY_VALUE;
+            }
+        }
+        else{
+            if((visitedTeamsCounter != ((int) (gamesCounter / 2))) 
+                    || (visitedTeamsCounter != (((int) (gamesCounter / 2)) + 1))){
+                penalty -= DOESNT_RECEIVE_ALL_TEAMS_PENALTY_VALUE;
+            }
+        }
+        
+        return penalty;
+    }
+    
+    public double detectNumberOfVisitsByATeam(HashMap<BitString, String> candidateCalendar, BitString key){
+        double penalty = 0.0;
+
+        String aCalendar = candidateCalendar.get(key);
+        double gamesCounter = 0.0;
+        double visitsCounter = 0.0;
+        
+        while (!(aCalendar.length() <= 0)) {
+            String sequence = aCalendar.substring(0, nBitsPerTeam);
+            
+            if(sequence.equalsIgnoreCase(this.awayGame)){
+                visitsCounter++;
+            }
+            
+            gamesCounter++;
+        }
+        
+        if(gamesCounter % 2 == 0){
+            if(visitsCounter != (gamesCounter / 2)){
+                penalty -= DOESNT_VISIT_ALL_TEAMS_PENALTY_VALUE;
+            }
+        }
+        else{
+            if((visitsCounter != ((int) (gamesCounter / 2))) 
+                    || (visitsCounter != (((int) (gamesCounter / 2)) + 1))){
+                penalty -= DOESNT_VISIT_ALL_TEAMS_PENALTY_VALUE;
+            }
+        }
+        
+        return penalty;
+    }
+    
+    public double detectConsistencyBetweenGames(){
+        double penalty = 0.0;
 
         return penalty;
     }
