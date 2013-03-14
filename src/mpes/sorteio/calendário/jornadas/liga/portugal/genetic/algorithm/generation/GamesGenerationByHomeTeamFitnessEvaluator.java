@@ -22,7 +22,6 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     public int nBitsPerTeam;
     public HashMap<BitString, Team> teamsByGene;
     public String awayGame;
-    
     public static final int OPTIMAL_SOLUTION = 500;
     public static final int MIRROR_IMAGE_PENALTY_VALUE = 300;
     public static final int BOTH_GAMES_IN_HOME_OR_AWAY_PENALTY_VALUE = 30;
@@ -32,7 +31,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     public static final int MORE_THAN_TWO_CONSECUTIVE_BIG_GAMES_PENALTY_VALUE = 50;
     public static final int FORBIDDEN_GAME_PENALTY_VALUE = 50;
     public static final int MORE_THAN_ONE_CONSECUTIVE_HOME_OR_AWAY_GAME_PENALTY_VALUE = 15;
-    public static final int MORE_THAN_ONE_GAME_AGAINST_THE_SAME_TEAM_PENALTY_VALUE = 15;
+    public static final int MORE_THAN_ONE_GAME_AGAINST_THE_SAME_TEAM_PENALTY_VALUE = 200;
 
     public GamesGenerationByHomeTeamFitnessEvaluator(ArrayList<Team> t, int nBits) {
         teams = t;
@@ -42,7 +41,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         while (!(teams.size() <= 0)) {
             this.attributeGeneToATeam();
         }
-        
+
         awayGame = new String();
 
         while (awayGame.length() < nBitsPerTeam) {
@@ -64,6 +63,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
             fitness += this.detectHomeGamesFor2GeographicallyCloseTeams(candidateCalendar, keyArray);
             fitness += this.detectAwayGamesFor2GeographicallyCloseTeams(candidateCalendar, keyArray);
             fitness += this.detectTwoOrMoreBigGamesOnTheSameStadium(candidateCalendar, keyArray);
+            fitness += this.detectTwoConsecutiveHomeOrAwayGames(candidateCalendar, key);
             fitness += this.detectIfFirstAndLastGameAreBothAwayOrHome(candidateCalendar, key);
             fitness += this.detectMirrorImageOfHomeTeam(candidateCalendar, key);
             fitness += this.detectTwoOrMoreGamesWithTheSameOpponent(candidateCalendar, key, keyArray);
@@ -144,6 +144,24 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         return penalty;
     }
 
+    public double detectTwoConsecutiveHomeOrAwayGames(HashMap<BitString, String> candidateCalendar, BitString key) {
+        double penalty = 0.0;
+
+        String aCalendar = candidateCalendar.get(key);
+
+        while (!(aCalendar.length() <= nBitsPerTeam)) {
+            String aGame = aCalendar.substring(0, nBitsPerTeam);
+            String theNextGame = aCalendar.substring(nBitsPerTeam, nBitsPerTeam * 2);
+
+            if ((aGame.equalsIgnoreCase(awayGame) && theNextGame.equalsIgnoreCase(awayGame))
+                    || (!aGame.equalsIgnoreCase(awayGame) && !theNextGame.equalsIgnoreCase(awayGame))) {
+                penalty -= MORE_THAN_ONE_CONSECUTIVE_HOME_OR_AWAY_GAME_PENALTY_VALUE;
+            }
+        }
+
+        return penalty;
+    }
+
     public double detectIfFirstAndLastGameAreBothAwayOrHome(HashMap<BitString, String> candidateCalendar, BitString key) {
         double penalty = 0.0;
 
@@ -182,29 +200,29 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         double penalty = 0.0;
 
         String aCalendar = candidateCalendar.get(key);
-        
+
         HashMap<BitString, Integer> nTimesInCalendar = new HashMap<BitString, Integer>();
-        
-        for(BitString k : otherKeys){
-            if(!k.toString().equalsIgnoreCase(key.toString())){
+
+        for (BitString k : otherKeys) {
+            if (!k.toString().equalsIgnoreCase(key.toString())) {
                 nTimesInCalendar.put(k, 0);
             }
         }
-        
+
         while (!(aCalendar.length() <= 0)) {
-             String sequence = aCalendar.substring(0, nBitsPerTeam);
-             
-             if(!sequence.equalsIgnoreCase(this.awayGame)){
-                 int nTimes = nTimesInCalendar.get(new BitString(sequence));
-                 
-                 if(!(nTimes <= 1)){
-                     penalty -= MORE_THAN_ONE_GAME_AGAINST_THE_SAME_TEAM_PENALTY_VALUE;
-                 }
-                 
-                 nTimes++;
-             }
+            String sequence = aCalendar.substring(0, nBitsPerTeam);
+
+            if (!sequence.equalsIgnoreCase(this.awayGame)) {
+                int nTimes = nTimesInCalendar.get(new BitString(sequence));
+
+                if (!(nTimes <= 1)) {
+                    penalty -= MORE_THAN_ONE_GAME_AGAINST_THE_SAME_TEAM_PENALTY_VALUE;
+                }
+
+                nTimes++;
+            }
         }
-        
+
         return penalty;
     }
 }
