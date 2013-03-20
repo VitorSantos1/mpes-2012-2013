@@ -60,21 +60,6 @@ public class GenerationLauncher {
     public void insertForbiddenGames() {
         ArrayList<Game> candidateGames = new ArrayList<Game>();
 
-        Game scpXfcp = new Game(c.getTeamByName("Sporting CP"), c.getTeamByName("FC Porto"));
-        Game fcpXscp = scpXfcp.reverseTeams();
-        candidateGames.add(scpXfcp);
-        candidateGames.add(fcpXscp);
-
-        Game scpXslb = new Game(c.getTeamByName("Sporting CP"), c.getTeamByName("SL Benfica"));
-        Game slbXscp = scpXslb.reverseTeams();
-        candidateGames.add(scpXslb);
-        candidateGames.add(slbXscp);
-
-        Game slbXfcp = new Game(c.getTeamByName("SL Benfica"), c.getTeamByName("FC Porto"));
-        Game fcpXslb = slbXfcp.reverseTeams();
-        candidateGames.add(slbXfcp);
-        candidateGames.add(fcpXslb);
-
         Game cdnXcsm = new Game(c.getTeamByName("CD Nacional"), c.getTeamByName("CS Marítimo"));
         Game csmXcdn = cdnXcsm.reverseTeams();
         candidateGames.add(cdnXcsm);

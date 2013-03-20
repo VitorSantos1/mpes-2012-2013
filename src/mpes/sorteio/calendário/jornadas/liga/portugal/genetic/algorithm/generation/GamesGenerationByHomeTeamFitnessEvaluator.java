@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Team;
 import org.uncommons.maths.binary.BitString;
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
@@ -32,7 +33,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     public static final int MORE_THAN_ONE_BIG_GAME_IN_THE_SAME_STADIUM_PENALTY_VALUE = 50;
     public static final int MORE_THAN_ONE_REGIONAL_TEAM_AWAY_PENALTY_VALUE = 30;
     public static final int MORE_THAN_ONE_REGIONAL_TEAM_HOME_PENALTY_VALUE = 30;
-    public static final int MORE_THAN_TWO_CONSECUTIVE_BIG_GAMES_PENALTY_VALUE = 50;
+    public static final int TWO_OR_MORE_CONSECUTIVE_BIG_GAMES_PENALTY_VALUE = 50;
     public static final int FORBIDDEN_GAME_PENALTY_VALUE = 50;
     public static final int MORE_THAN_ONE_CONSECUTIVE_HOME_OR_AWAY_GAME_PENALTY_VALUE = 15;
 
@@ -62,10 +63,10 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
         for (BitString key : keyArray) {
             fitness += this.detectForbiddenGames(candidateCalendar, keyArray);
-            fitness += this.detectConsecutiveBigGames(candidateCalendar, keyArray);
+            fitness += this.detectConsecutiveBigGames(candidateCalendar, key, keyArray);
             fitness += this.detectHomeGamesFor2GeographicallyCloseTeams(candidateCalendar, keyArray);
             fitness += this.detectAwayGamesFor2GeographicallyCloseTeams(candidateCalendar, keyArray);
-            fitness += this.detectTwoOrMoreBigGamesOnTheSameStadium(candidateCalendar, keyArray);
+            fitness += this.detectTwoOrMoreBigGamesOnTheSameStadium(candidateCalendar, key, keyArray);
             fitness += this.detectTwoConsecutiveHomeOrAwayGames(candidateCalendar, key);
             fitness += this.detectIfFirstAndLastGameAreBothAwayOrHome(candidateCalendar, key);
             fitness += this.detectMirrorImageOfHomeTeam(candidateCalendar, key);
@@ -123,11 +124,59 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     public double detectForbiddenGames(HashMap<BitString, String> candidateCalendar, BitString[] keyArray) {
         double penalty = 0.0;
 
+//        HashMap<Game, ArrayList<Integer>> forbiddenGames = GameRestrictions.getForbiddenGames();
+//        BitString[] fgKeyArray = (BitString[]) forbiddenGames.keySet().toArray();
+//        
+//        for (BitString k : fgKeyArray){
+//            
+//        }
+
         return penalty;
     }
 
-    public double detectConsecutiveBigGames(HashMap<BitString, String> candidateCalendar, BitString[] keyArray) {
+    public double detectConsecutiveBigGames(HashMap<BitString, String> candidateCalendar, BitString key, BitString[] keyArray) {
         double penalty = 0.0;
+
+        Team aTeam = teamsByGene.get(key);
+        int gameIndex = 0;
+
+        //Enters in this situation if the team is not null and if it's a big one.
+        if (aTeam != null && (aTeam.getTeamType().equalsIgnoreCase("Equipa Grande")
+                || aTeam.getTeamType().equalsIgnoreCase("Equipa \"B\" Grande"))) {
+            String aCalendar = candidateCalendar.get(key);
+
+            while (!(aCalendar.length() <= nBitsPerTeam)) {
+                String sequence = aCalendar.substring(0, nBitsPerTeam);
+
+                Team anotherTeam = teamsByGene.get(new BitString(sequence));
+
+                //Enters if the algorithm detects an important home match.
+                if (anotherTeam != null && (anotherTeam.getTeamType().equalsIgnoreCase("Equipa Grande")
+                        || anotherTeam.getTeamType().equalsIgnoreCase("Equipa \"B\" Grande"))) {
+                    for (BitString k : keyArray) {
+                        Team thisTeam = teamsByGene.get(k);
+
+                        //If this team is a big one, it will search for its game that occurs the next matchday of the previous team
+                        if (thisTeam != null && (thisTeam.getTeamType().equalsIgnoreCase("Equipa Grande")
+                                || thisTeam.getTeamType().equalsIgnoreCase("Equipa \"B\" Grande"))) {
+                            String thisSequence = candidateCalendar.get(k);
+                            String otherTeamGame = thisSequence.substring((gameIndex + 1) * nBitsPerTeam, (gameIndex + 1) * nBitsPerTeam + nBitsPerTeam);
+
+                            Team opponentOfThisTeam = teamsByGene.get(new BitString(otherTeamGame));
+
+                            //If this game is a big one, a penalty is applied
+                            if (opponentOfThisTeam != null && (opponentOfThisTeam.getTeamType().equalsIgnoreCase("Equipa Grande")
+                                    || opponentOfThisTeam.getTeamType().equalsIgnoreCase("Equipa \"B\" Grande"))) {
+                                penalty -= TWO_OR_MORE_CONSECUTIVE_BIG_GAMES_PENALTY_VALUE;
+                            }
+                        }
+                    }
+                }
+
+                gameIndex++;
+                aCalendar = aCalendar.substring(nBitsPerTeam);
+            }
+        }
 
         return penalty;
     }
@@ -144,8 +193,34 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         return penalty;
     }
 
-    public double detectTwoOrMoreBigGamesOnTheSameStadium(HashMap<BitString, String> candidateCalendar, BitString[] keyArray) {
+    public double detectTwoOrMoreBigGamesOnTheSameStadium(HashMap<BitString, String> candidateCalendar, BitString key, BitString[] keyArray) {
         double penalty = 0.0;
+
+        Team aTeam = teamsByGene.get(key);
+
+        //If team with key as a parameter is a big one
+        if (aTeam != null && (aTeam.getTeamType().equalsIgnoreCase("Equipa Grande")
+                || aTeam.getTeamType().equalsIgnoreCase("Equipa \"B\" Grande"))) {
+            String aCalendar = candidateCalendar.get(key);
+            int gamesCounter = 0;
+
+            //Search for how many big teams will receive
+            while (!(aCalendar.length() <= 0)) {
+                String aGame = aCalendar.substring(0, nBitsPerTeam);
+                Team otherTeam = teamsByGene.get(new BitString(aGame));
+
+                if (otherTeam != null && (otherTeam.getTeamType().equalsIgnoreCase("Equipa Grande")
+                        || otherTeam.getTeamType().equalsIgnoreCase("Equipa \"B\" Grande"))) {
+                    gamesCounter++;
+                }
+
+                aCalendar = aCalendar.substring(nBitsPerTeam);
+            }
+            
+            if(!(gamesCounter <= 1)){
+                penalty -= MORE_THAN_ONE_BIG_GAME_IN_THE_SAME_STADIUM_PENALTY_VALUE;
+            }
+        }
 
         return penalty;
     }
@@ -163,6 +238,8 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
                     || (!aGame.equalsIgnoreCase(awayGame) && !theNextGame.equalsIgnoreCase(awayGame))) {
                 penalty -= MORE_THAN_ONE_CONSECUTIVE_HOME_OR_AWAY_GAME_PENALTY_VALUE;
             }
+
+            aCalendar = aCalendar.substring(nBitsPerTeam);
         }
 
         return penalty;
@@ -203,14 +280,14 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     }
 
     //Detects if a team has two or more games against the same opponent, on the same round.
-    public double detectTwoOrMoreGamesWithTheSameOpponent(HashMap<BitString, String> candidateCalendar, BitString key, BitString[] otherKeys) {
+    public double detectTwoOrMoreGamesWithTheSameOpponent(HashMap<BitString, String> candidateCalendar, BitString key, BitString[] keyArray) {
         double penalty = 0.0;
 
         String aCalendar = candidateCalendar.get(key);
 
         HashMap<BitString, Integer> nTimesInCalendar = new HashMap<BitString, Integer>();
 
-        for (BitString k : otherKeys) {
+        for (BitString k : keyArray) {
             if (!k.toString().equalsIgnoreCase(key.toString())) {
                 nTimesInCalendar.put(k, 0);
             }
@@ -228,6 +305,8 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
                 nTimesInCalendar.put(new BitString(sequence), nTimes++);
             }
+
+            aCalendar = aCalendar.substring(nBitsPerTeam);
         }
 
         return penalty;
@@ -248,6 +327,8 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
             }
 
             gamesCounter++;
+
+            aCalendar = aCalendar.substring(nBitsPerTeam);
         }
 
         //Test if the number of games is even or odd.
@@ -280,6 +361,8 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
             }
 
             gamesCounter++;
+
+            aCalendar = aCalendar.substring(nBitsPerTeam);
         }
 
         //Test if the number of games is even or odd.
@@ -298,7 +381,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     }
 
     //Detects consistency between viewpoints of a game by each team.
-    public double detectConsistencyBetweenGames(HashMap<BitString, String> candidateCalendar, BitString key, BitString[] otherKeys) {
+    public double detectConsistencyBetweenGames(HashMap<BitString, String> candidateCalendar, BitString key, BitString[] keyArray) {
         double penalty = 0.0;
 
         String aCalendar = candidateCalendar.get(key);
@@ -317,7 +400,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
             } else {
                 boolean teamFound = false;
 
-                for (BitString k : otherKeys) {
+                for (BitString k : keyArray) {
                     String otherTeamSequence = candidateCalendar.get(k);
                     String otherTeamGame = otherTeamSequence.substring(gameIndex * nBitsPerTeam, gameIndex * nBitsPerTeam + nBitsPerTeam);
 
@@ -326,13 +409,15 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
                         break;
                     }
                 }
-                
-                if(!teamFound){
+
+                if (!teamFound) {
                     penalty -= GAMES_MISMATCH_PENALTY_VALUE;
                 }
             }
 
             gameIndex++;
+
+            aCalendar = aCalendar.substring(nBitsPerTeam);
         }
 
         return penalty;
