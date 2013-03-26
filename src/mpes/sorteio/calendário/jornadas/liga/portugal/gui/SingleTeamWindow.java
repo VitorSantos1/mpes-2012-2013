@@ -104,6 +104,11 @@ public class SingleTeamWindow extends javax.swing.JFrame {
         });
 
         removeNeighbourTeamButton.setText("Remover");
+        removeNeighbourTeamButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                removeNeighbourTeamAction(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout singleTeamPanelLayout = new org.jdesktop.layout.GroupLayout(singleTeamPanel);
         singleTeamPanel.setLayout(singleTeamPanelLayout);
@@ -227,7 +232,6 @@ public class SingleTeamWindow extends javax.swing.JFrame {
         
         if((team != null) && (!(team.length() <= 0))){
             dlm.addElement(team);
-            neighbourTeamsList = new JList(dlm);
         }
         else{
             JOptionPane.showMessageDialog(this,
@@ -236,6 +240,27 @@ public class SingleTeamWindow extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_addNeighbourTeamAction
+
+    private void removeNeighbourTeamAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeNeighbourTeamAction
+        Object[] options = {"Sim", "Não"};
+        int optionIndex = JOptionPane.showOptionDialog(this,
+                "Tem a certeza desta operação?",
+                "Confirmação de Acção",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
+        if (optionIndex == JOptionPane.YES_OPTION) {
+            String teamToDelete = (String) neighbourTeamsList.getSelectedValue();
+            
+            for(int i = 0; i < dlm.size(); i++){
+                if(teamToDelete.equalsIgnoreCase((String) dlm.elementAt(i))){
+                    dlm.removeElementAt(i);
+                }
+            }
+            
+            neighbourTeamsList = new JList(dlm);
+        }
+    }//GEN-LAST:event_removeNeighbourTeamAction
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addNeighbourTeamButton;
