@@ -130,7 +130,7 @@ public class GenerationLauncher {
          *
          * This operations can be done with an auxiliary GUI Tool...
          */
-        operators.add(new BitStringCrossover());
+        operators.add(new CustomBitStringCrossover(this.determineTeamGeneSize(c.getTeams().size())));
         operators.add(new BitStringMutation(new Probability(0.02)));
 
         EvolutionaryOperator<BitString> pipeline = new EvolutionPipeline<BitString>(operators);

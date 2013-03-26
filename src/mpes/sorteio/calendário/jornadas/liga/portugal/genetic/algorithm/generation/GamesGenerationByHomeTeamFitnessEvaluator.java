@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Team;
 import org.uncommons.maths.binary.BitString;
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
