@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Team;
 import org.uncommons.maths.binary.BitString;
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
@@ -63,8 +64,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         for (BitString key : keyArray) {
             fitness += this.detectForbiddenGames(candidateCalendar, keyArray);
             fitness += this.detectConsecutiveBigGames(candidateCalendar, key, keyArray);
-            fitness += this.detectHomeGamesFor2GeographicallyCloseTeams(candidateCalendar, keyArray);
-            fitness += this.detectAwayGamesFor2GeographicallyCloseTeams(candidateCalendar, keyArray);
+            fitness += this.detectGamesFor2GeographicallyCloseTeams(candidateCalendar, key, keyArray);
             fitness += this.detectTwoOrMoreBigGamesOnTheSameStadium(candidateCalendar, key, keyArray);
             fitness += this.detectTwoConsecutiveHomeOrAwayGames(candidateCalendar, key);
             fitness += this.detectIfFirstAndLastGameAreBothAwayOrHome(candidateCalendar, key);
@@ -122,14 +122,27 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     //Restrictions Appliers Fitness Evaluators
     public double detectForbiddenGames(HashMap<BitString, String> candidateCalendar, BitString[] keyArray) {
         double penalty = 0.0;
-
-//        HashMap<Game, ArrayList<Integer>> forbiddenGames = GameRestrictions.getForbiddenGames();
-//        BitString[] fgKeyArray = (BitString[]) forbiddenGames.keySet().toArray();
-//        
-//        for (BitString k : fgKeyArray){
-//            
-//        }
-
+        Game[] forbiddenGames = (Game[]) GameRestrictions.getForbiddenGames().keySet().toArray();
+        
+        for(Game g : forbiddenGames){
+            Team homeTeam = g.getVisitedTeam();
+            Team awayTeam = g.getVisitorTeam();
+            
+            for(BitString k : keyArray){
+                if(teamsByGene.get(k).getTeamName().equalsIgnoreCase(homeTeam.getTeamName())){
+                    String aCalendar = candidateCalendar.get(k);
+                    
+                    for(int gameIndex : GameRestrictions.getForbiddenGames().get(g)){
+                        String sequence = aCalendar.substring(nBitsPerTeam * (gameIndex - 1), nBitsPerTeam * (gameIndex - 1) + nBitsPerTeam);
+                        
+                        if(!sequence.equals(awayGame) && teamsByGene.get(new BitString(sequence)).getTeamName().equalsIgnoreCase(awayTeam.getTeamName())){
+                            penalty -= FORBIDDEN_GAME_PENALTY_VALUE;
+                        }
+                    }
+                }
+            }
+        }
+        
         return penalty;
     }
 
@@ -180,15 +193,56 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         return penalty;
     }
 
-    public double detectAwayGamesFor2GeographicallyCloseTeams(HashMap<BitString, String> candidateCalendar, BitString[] keyArray) {
+    public double detectGamesFor2GeographicallyCloseTeams(HashMap<BitString, String> candidateCalendar, BitString key, BitString[] keyArray) {
         double penalty = 0.0;
 
-        return penalty;
-    }
-
-    public double detectHomeGamesFor2GeographicallyCloseTeams(HashMap<BitString, String> candidateCalendar, BitString[] keyArray) {
-        double penalty = 0.0;
-
+        Team aTeam = teamsByGene.get(key);
+        ArrayList<String> neighbourTeams = aTeam.getNeighbourTeams();
+        
+        //If a team has others in its proximity
+        if(!neighbourTeams.isEmpty()){
+            String aCalendar = candidateCalendar.get(key);
+            int gameIndex = 0;
+            
+            while (!(aCalendar.length() <= 0)){
+                String aGame = aCalendar.substring(0, nBitsPerTeam);
+                
+                //It it plays away
+                if(aGame.equals(awayGame)){
+                    for(String teamName : neighbourTeams){
+                        for(BitString k : keyArray){
+                            if(teamsByGene.get(k).getTeamName().equalsIgnoreCase(teamName)){
+                                String otherCalendar = candidateCalendar.get(k);
+                                String otherGame = otherCalendar.substring(nBitsPerTeam * gameIndex, nBitsPerTeam * gameIndex + nBitsPerTeam);
+                                
+                                if(otherGame.equals(awayGame)){
+                                    penalty -= MORE_THAN_ONE_REGIONAL_TEAM_AWAY_PENALTY_VALUE;
+                                }
+                            }
+                        }
+                    }
+                }
+                //If it plays home
+                else if(!aGame.equals(awayGame)){
+                    for(String teamName : neighbourTeams){
+                        for(BitString k : keyArray){
+                            if(teamsByGene.get(k).getTeamName().equalsIgnoreCase(teamName)){
+                                String otherCalendar = candidateCalendar.get(k);
+                                String otherGame = otherCalendar.substring(nBitsPerTeam * gameIndex, nBitsPerTeam * gameIndex + nBitsPerTeam);
+                                
+                                if(!otherGame.equals(awayGame)){
+                                    penalty -= MORE_THAN_ONE_REGIONAL_TEAM_HOME_PENALTY_VALUE;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                gameIndex++;
+                aCalendar = aCalendar.substring(nBitsPerTeam);
+            }
+        }
+        
         return penalty;
     }
 
