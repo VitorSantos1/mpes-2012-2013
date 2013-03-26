@@ -6,6 +6,7 @@ package mpes.sorteio.calendário.jornadas.liga.portugal.support;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -57,9 +58,17 @@ public class LoadXML {
                 if(n.getNodeName().equals("team")){
                     Element e = (Element) n;
                     
+                    NodeList nodeOfNeighbours = e.getElementsByTagName("neighbours");
+                    ArrayList<String> teamNeighbours = new ArrayList<String>();
+                    
+                    for(int j = 0; j < nodeOfNeighbours.getLength(); j++){
+                        teamNeighbours.add(nodeOfNeighbours.item(j).getTextContent());
+                    }
+                    
                     Team t = new Team(e.getElementsByTagName("name").item(0).getTextContent(), 
-                            e.getElementsByTagName("district").item(0).getTextContent(), 
+                            teamNeighbours, 
                             e.getElementsByTagName("type").item(0).getTextContent());
+                    
                     c.getTeams().add(t);
                 }
             }

@@ -4,6 +4,9 @@
  */
 package mpes.sorteio.calendário.jornadas.liga.portugal.gui;
 
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Team;
@@ -16,7 +19,9 @@ public class SingleTeamWindow extends javax.swing.JFrame {
 
     private Championship c;
     private Team editableTeam;
-    
+    private DefaultListModel dlm;
+    private String errorMsg = "";
+
     /**
      * Creates new form SingleTeamWindow
      */
@@ -24,17 +29,16 @@ public class SingleTeamWindow extends javax.swing.JFrame {
         c = newC;
         initComponents();
     }
-    
-    public SingleTeamWindow(Championship newC, Team newEditableTeam){
+
+    public SingleTeamWindow(Championship newC, Team newEditableTeam) {
         c = newC;
         editableTeam = newEditableTeam;
         initComponents();
-        
+
         teamNameTextField.setText(editableTeam.getTeamName());
-        teamDistrictComboBox.setSelectedItem((String) editableTeam.getTeamDistrict());
         teamTypeComboBox.setSelectedItem((String) editableTeam.getTeamType());
     }
-    
+
     /**
      * This method is called from within the constructor to initialise the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -47,20 +51,28 @@ public class SingleTeamWindow extends javax.swing.JFrame {
         singleTeamPanel = new javax.swing.JPanel();
         teamNameLabel = new javax.swing.JLabel();
         teamNameTextField = new javax.swing.JTextField();
-        teamDistrictLabel = new javax.swing.JLabel();
-        teamDistrictComboBox = new javax.swing.JComboBox();
         teamTypeLabel = new javax.swing.JLabel();
         teamTypeComboBox = new javax.swing.JComboBox();
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        neighbourTeamsLabel = new javax.swing.JLabel();
+        neighbourTeamsScrollPane = new javax.swing.JScrollPane();
+        neighbourTeamsList = new javax.swing.JList();
+        dlm = new DefaultListModel();
+
+        if (editableTeam != null) {
+            for (String nt : editableTeam.getNeighbourTeams()) {
+                dlm.addElement(nt);
+            }
+        }
+
+        neighbourTeamsList = new JList(dlm);
+        addNeighbourTeamButton = new javax.swing.JButton();
+        removeNeighbourTeamButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         teamNameLabel.setText("Nome:");
-
-        teamDistrictLabel.setText("Distrito:");
-
-        teamDistrictComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccionar...", "Aveiro", "Beja", "Braga", "Bragança", "Castelo Branco", "Coimbra", "Évora", "Faro", "Guarda", "Leiria", "Lisboa", "Porto", "Portalegre", "Santarém", "Setúbal", "Viana do Castelo", "Vila Real", "Viseu", "Açores", "Madeira" }));
 
         teamTypeLabel.setText("Tipo:");
 
@@ -80,31 +92,50 @@ public class SingleTeamWindow extends javax.swing.JFrame {
             }
         });
 
+        neighbourTeamsLabel.setText("Equipas Próximas Geograficamente");
+
+        neighbourTeamsScrollPane.setViewportView(neighbourTeamsList);
+
+        addNeighbourTeamButton.setText("Adicionar");
+        addNeighbourTeamButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addNeighbourTeamAction(evt);
+            }
+        });
+
+        removeNeighbourTeamButton.setText("Remover");
+
         org.jdesktop.layout.GroupLayout singleTeamPanelLayout = new org.jdesktop.layout.GroupLayout(singleTeamPanel);
         singleTeamPanel.setLayout(singleTeamPanelLayout);
         singleTeamPanelLayout.setHorizontalGroup(
             singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, singleTeamPanelLayout.createSequentialGroup()
                 .add(35, 35, 35)
-                .add(singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(singleTeamPanelLayout.createSequentialGroup()
-                        .add(singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(teamNameLabel)
-                            .add(teamDistrictLabel)
-                            .add(teamTypeLabel))
-                        .add(41, 41, 41)
-                        .add(singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(singleTeamPanelLayout.createSequentialGroup()
-                                .add(singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                                    .add(org.jdesktop.layout.GroupLayout.LEADING, teamTypeComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .add(org.jdesktop.layout.GroupLayout.LEADING, teamDistrictComboBox, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 15, Short.MAX_VALUE))
-                            .add(teamNameTextField)))
+                        .add(addNeighbourTeamButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(removeNeighbourTeamButton))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, singleTeamPanelLayout.createSequentialGroup()
+                        .add(teamTypeLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(teamTypeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 219, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(singleTeamPanelLayout.createSequentialGroup()
+                        .add(11, 11, 11)
                         .add(cancelButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(okButton)))
-                .add(41, 41, 41))
+                        .add(okButton)
+                        .add(25, 25, 25))
+                    .add(singleTeamPanelLayout.createSequentialGroup()
+                        .add(teamNameLabel)
+                        .add(52, 52, 52)
+                        .add(teamNameTextField))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, neighbourTeamsScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE))
+                .add(30, 30, 30))
+            .add(singleTeamPanelLayout.createSequentialGroup()
+                .add(67, 67, 67)
+                .add(neighbourTeamsLabel)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         singleTeamPanelLayout.setVerticalGroup(
             singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -113,11 +144,15 @@ public class SingleTeamWindow extends javax.swing.JFrame {
                 .add(singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(teamNameLabel)
                     .add(teamNameTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(32, 32, 32)
+                .add(neighbourTeamsLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(neighbourTeamsScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(teamDistrictLabel)
-                    .add(teamDistrictComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                    .add(addNeighbourTeamButton)
+                    .add(removeNeighbourTeamButton))
+                .add(29, 29, 29)
                 .add(singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(teamTypeLabel)
                     .add(teamTypeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -125,7 +160,7 @@ public class SingleTeamWindow extends javax.swing.JFrame {
                 .add(singleTeamPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelButton)
                     .add(okButton))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -136,45 +171,42 @@ public class SingleTeamWindow extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(singleTeamPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(layout.createSequentialGroup()
+                .add(singleTeamPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(0, 44, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void acceptChangesAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acceptChangesAction
-        if(!((String) teamDistrictComboBox.getSelectedItem()).equals("Seleccionar...") &&
-                !((String) teamTypeComboBox.getSelectedItem()).equals("Seleccionar...")){
-            if(editableTeam == null){
-                if(newEntryValidation()){
+        if (!((String) teamTypeComboBox.getSelectedItem()).equals("Seleccionar...")) {
+            if (editableTeam == null) {
+                if (newEntryValidation()) {
                     this.setVisible(false);
                     new MainWindow(c).setVisible(true);
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(this,
-                    "Deverá incluir uma equipa que não tenha as mesmas características que uma já presente.",
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE);
+                            errorMsg,
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE);
                 }
-            } 
-            else if(editableTeam != null){
-                if(editEntryValidation()){
+            } else if (editableTeam != null) {
+                if (editEntryValidation()) {
                     this.setVisible(false);
                     new MainWindow(c).setVisible(true);
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(this,
-                    "Deverá alterar uma equipa já existente.",
-                    "Erro",
-                    JOptionPane.ERROR_MESSAGE);
+                            errorMsg,
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(this,
-            "Deverá seleccionar um distrito e/ou um tipo para a equipa.",
-            "Erro",
-            JOptionPane.ERROR_MESSAGE);
+                    "Deverá seleccionar um tipo para a equipa.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_acceptChangesAction
 
@@ -183,12 +215,37 @@ public class SingleTeamWindow extends javax.swing.JFrame {
         new MainWindow(c).setVisible(true);
     }//GEN-LAST:event_cancelAction
 
+    private void addNeighbourTeamAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNeighbourTeamAction
+        String team = (String)JOptionPane.showInputDialog(
+                    this,
+                    "Insira o nome da equipa geograficamente próxima:",
+                    "Inserir nome",
+                    JOptionPane.INFORMATION_MESSAGE,
+                    null,
+                    null,
+                    "");
+        
+        if((team != null) && (!(team.length() <= 0))){
+            dlm.addElement(team);
+            neighbourTeamsList = new JList(dlm);
+        }
+        else{
+            JOptionPane.showMessageDialog(this,
+                    "Deverá escrever um nome para esta equipa.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_addNeighbourTeamAction
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addNeighbourTeamButton;
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel neighbourTeamsLabel;
+    private javax.swing.JList neighbourTeamsList;
+    private javax.swing.JScrollPane neighbourTeamsScrollPane;
     private javax.swing.JButton okButton;
+    private javax.swing.JButton removeNeighbourTeamButton;
     private javax.swing.JPanel singleTeamPanel;
-    private javax.swing.JComboBox teamDistrictComboBox;
-    private javax.swing.JLabel teamDistrictLabel;
     private javax.swing.JLabel teamNameLabel;
     private javax.swing.JTextField teamNameTextField;
     private javax.swing.JComboBox teamTypeComboBox;
@@ -197,30 +254,72 @@ public class SingleTeamWindow extends javax.swing.JFrame {
 
     private boolean newEntryValidation() {
         String newTeamName = teamNameTextField.getText();
-        
-        for(Team t : c.getTeams()){
-            if(t.getTeamName().equalsIgnoreCase(newTeamName)){
-                return false;
+
+        try {
+            if(newTeamName.equals("")){
+                throw new IllegalArgumentException("Deverá inserir uma equipa com um nome diferente de vazio.");
             }
+            
+            for (Team t : c.getTeams()) {
+                if (t.getTeamName().equalsIgnoreCase(newTeamName)) {
+                    throw new IllegalArgumentException("Deverá inserir uma equipa com um nome diferente de uma já existente.");
+                }
+            }
+            
+            ArrayList<String> neighbourTeams = validatingAndInsertingNeighbourTeams();
+
+            c.getTeams().add(new Team(newTeamName, neighbourTeams, (String) teamTypeComboBox.getSelectedItem()));
+            return true;
+        } catch (IllegalArgumentException e) {
+            errorMsg = e.getMessage();
+            return false;
         }
-        
-        c.getTeams().add(new Team(newTeamName, (String) teamDistrictComboBox.getSelectedItem(), (String) teamTypeComboBox.getSelectedItem()));
-        return true;
     }
 
     private boolean editEntryValidation() {
         String editTeamName = teamNameTextField.getText();
-        
-        for(Team t : c.getTeams()){
-            if(t.getTeamName().equalsIgnoreCase(editTeamName)){
-                t.setTeamName(editTeamName);
-                t.setTeamDistrict((String) teamDistrictComboBox.getSelectedItem());
-                t.setTeamType((String) teamTypeComboBox.getSelectedItem());
-                
-                return true;
+
+        try {
+            for (Team t : c.getTeams()) {
+                if (t.getTeamName().equalsIgnoreCase(editTeamName)) {
+                    t.setTeamName(editTeamName);
+                    ArrayList<String> neighbourTeams = validatingAndInsertingNeighbourTeams();
+
+                    t.setNeighbourTeams(neighbourTeams);
+                    t.setTeamType((String) teamTypeComboBox.getSelectedItem());
+
+                    return true;
+                }
+            }
+            
+            throw new IllegalArgumentException("Deverá alterar uma equipa já existente.");
+        } catch (IllegalArgumentException e) {
+            errorMsg = e.getMessage();
+            return false;
+        }
+    }
+
+    private ArrayList<String> validatingAndInsertingNeighbourTeams() {
+        ArrayList<String> neighbourTeams = new ArrayList<String>();
+
+        for (int i = 0; i < neighbourTeamsList.getModel().getSize(); i++) {
+            boolean foundTeam = false;
+            final String newTeamToAdd = (String) neighbourTeamsList.getModel().getElementAt(i);
+
+            for (int j = 0; j < c.getTeams().size(); j++) {
+                if (newTeamToAdd.equalsIgnoreCase(c.getTeams().get(j).getTeamName())) {
+                    foundTeam = true;
+                    break;
+                }
+            }
+
+            if (!foundTeam) {
+                throw new IllegalArgumentException("Deverá inserir uma equipa vizinha que já exista no campeonato.");
+            } else {
+                neighbourTeams.add(newTeamToAdd);
             }
         }
-        
-        return false;
+
+        return neighbourTeams;
     }
 }

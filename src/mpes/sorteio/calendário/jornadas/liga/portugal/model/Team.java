@@ -4,24 +4,26 @@
  */
 package mpes.sorteio.calendário.jornadas.liga.portugal.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author vitorsantos
  */
 public class Team {
     private String teamName;
-    private String teamDistrict;
+    private ArrayList<String> neighbourTeams;
     private String teamType;
     
     public Team(){
         teamName = new String();
-        teamDistrict = new String();
+        neighbourTeams = new ArrayList<String>();
         teamType = new String();
     }
     
-    public Team(String name, String district, String type){
+    public Team(String name, ArrayList<String> neighbours, String type){
         teamName = name;
-        teamDistrict = district;
+        neighbourTeams = neighbours;
         teamType = type;
     }
     
@@ -29,8 +31,8 @@ public class Team {
         return teamName;
     }
     
-    public String getTeamDistrict(){
-        return teamDistrict;
+    public ArrayList<String> getNeighbourTeams(){
+        return neighbourTeams;
     }
     
     public String getTeamType(){
@@ -41,8 +43,8 @@ public class Team {
         teamName = name;
     }
     
-    public void setTeamDistrict(String district){
-        teamDistrict = district;
+    public void setNeighbourTeams(ArrayList<String> neighbours){
+        neighbourTeams = neighbours;
     }
     
     public void setTeamType(String type){

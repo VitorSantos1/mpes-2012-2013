@@ -27,7 +27,10 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="singleTeamPanel" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="singleTeamPanel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="44" max="32767" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -39,32 +42,37 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="teamNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="teamDistrictLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="teamTypeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="teamTypeComboBox" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="teamDistrictComboBox" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace pref="15" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="teamNameTextField" max="32767" attributes="0"/>
-                          </Group>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="addNeighbourTeamButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="removeNeighbourTeamButton" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="teamTypeLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="teamTypeComboBox" min="-2" pref="219" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                           <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="okButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                       </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="teamNameLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+                          <Component id="teamNameTextField" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="neighbourTeamsScrollPane" alignment="0" pref="312" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                  <Component id="neighbourTeamsLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -76,12 +84,16 @@
                       <Component id="teamNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="teamNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="neighbourTeamsLabel" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="neighbourTeamsScrollPane" pref="256" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="teamDistrictLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="teamDistrictComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="addNeighbourTeamButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="removeNeighbourTeamButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="teamTypeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="teamTypeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -91,7 +103,7 @@
                       <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="okButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="44" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -103,40 +115,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="teamNameTextField">
-        </Component>
-        <Component class="javax.swing.JLabel" name="teamDistrictLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Distrito:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="teamDistrictComboBox">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="21">
-                <StringItem index="0" value="Seleccionar..."/>
-                <StringItem index="1" value="Aveiro"/>
-                <StringItem index="2" value="Beja"/>
-                <StringItem index="3" value="Braga"/>
-                <StringItem index="4" value="Bragan&#xe7;a"/>
-                <StringItem index="5" value="Castelo Branco"/>
-                <StringItem index="6" value="Coimbra"/>
-                <StringItem index="7" value="&#xc9;vora"/>
-                <StringItem index="8" value="Faro"/>
-                <StringItem index="9" value="Guarda"/>
-                <StringItem index="10" value="Leiria"/>
-                <StringItem index="11" value="Lisboa"/>
-                <StringItem index="12" value="Porto"/>
-                <StringItem index="13" value="Portalegre"/>
-                <StringItem index="14" value="Santar&#xe9;m"/>
-                <StringItem index="15" value="Set&#xfa;bal"/>
-                <StringItem index="16" value="Viana do Castelo"/>
-                <StringItem index="17" value="Vila Real"/>
-                <StringItem index="18" value="Viseu"/>
-                <StringItem index="19" value="A&#xe7;ores"/>
-                <StringItem index="20" value="Madeira"/>
-              </StringArray>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="teamTypeLabel">
           <Properties>
@@ -171,6 +149,40 @@
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="cancelAction"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="neighbourTeamsLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Equipas Pr&#xf3;ximas Geograficamente"/>
+          </Properties>
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="neighbourTeamsScrollPane">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JList" name="neighbourTeamsList">
+              <Properties>
+                <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="dlm = new DefaultListModel();&#xa;&#xa;if (editableTeam != null) {&#xa;    for (String nt : editableTeam.getNeighbourTeams()) {&#xa;        dlm.addElement(nt);&#xa;    }&#xa;}&#xa;&#xa;neighbourTeamsList = new JList(dlm);"/>
+              </AuxValues>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JButton" name="addNeighbourTeamButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Adicionar"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="addNeighbourTeamAction"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="removeNeighbourTeamButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Remover"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
