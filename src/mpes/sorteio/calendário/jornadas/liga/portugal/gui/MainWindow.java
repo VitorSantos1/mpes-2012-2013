@@ -311,6 +311,9 @@ public class MainWindow extends javax.swing.JFrame {
          }
          }
          */
+        
+        new AlgorithmChooserWindow().setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_optionsAction
 
     private void generateCalendarAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateCalendarAction
