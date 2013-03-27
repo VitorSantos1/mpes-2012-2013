@@ -310,10 +310,18 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_optionsAction
 
     private void generateCalendarAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateCalendarAction
-        GenerationLauncher gl = new GenerationLauncher(c, algorithmType);
+        if (!algorithmType.equals("")) {
+            GenerationLauncher gl = new GenerationLauncher(c, algorithmType);
 
-        //At the end of generation, the main window should be able to print the results into the jTable.
-        //Also, printing metadata like number os generations and time consumed must be useful to show...
+            //At the end of generation, the main window should be able to print the results into the jTable.
+            //Also, printing metadata like number os generations and time consumed must be useful to show...
+        }
+        else{
+             JOptionPane.showMessageDialog(this,
+                    "Deverá seleccionar um algoritmo para gerar um calendário.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_generateCalendarAction
 
     /**

@@ -124,14 +124,17 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         double penalty = 0.0;
         Game[] forbiddenGames = (Game[]) GameRestrictions.getForbiddenGames().keySet().toArray();
         
+        //It starts the search by the forbidden games
         for(Game g : forbiddenGames){
             Team homeTeam = g.getVisitedTeam();
             Team awayTeam = g.getVisitorTeam();
             
+            //It will search for the correspondent calendar of home team.
             for(BitString k : keyArray){
                 if(teamsByGene.get(k).getTeamName().equalsIgnoreCase(homeTeam.getTeamName())){
                     String aCalendar = candidateCalendar.get(k);
                     
+                    //It will verifies if it has any forbidden teams, according to the integer array indicating the forbidden matchdays.
                     for(int gameIndex : GameRestrictions.getForbiddenGames().get(g)){
                         String sequence = aCalendar.substring(nBitsPerTeam * (gameIndex - 1), nBitsPerTeam * (gameIndex - 1) + nBitsPerTeam);
                         

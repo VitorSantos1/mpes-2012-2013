@@ -221,19 +221,18 @@ public class SingleTeamWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelAction
 
     private void addNeighbourTeamAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNeighbourTeamAction
-        String team = (String)JOptionPane.showInputDialog(
-                    this,
-                    "Insira o nome da equipa geograficamente próxima:",
-                    "Inserir nome",
-                    JOptionPane.INFORMATION_MESSAGE,
-                    null,
-                    null,
-                    "");
-        
-        if((team != null) && (!(team.length() <= 0))){
+        String team = (String) JOptionPane.showInputDialog(
+                this,
+                "Insira o nome da equipa geograficamente próxima:",
+                "Inserir nome",
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                null,
+                "");
+
+        if ((team != null) && (!(team.length() <= 0))) {
             dlm.addElement(team);
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(this,
                     "Deverá escrever um nome para esta equipa.",
                     "Erro",
@@ -242,26 +241,31 @@ public class SingleTeamWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_addNeighbourTeamAction
 
     private void removeNeighbourTeamAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeNeighbourTeamAction
-        Object[] options = {"Sim", "Não"};
-        int optionIndex = JOptionPane.showOptionDialog(this,
-                "Tem a certeza desta operação?",
-                "Confirmação de Acção",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        String teamToDelete = (String) neighbourTeamsList.getSelectedValue();
+        
+        if (teamToDelete != null && !teamToDelete.equals("")) {
+            Object[] options = {"Sim", "Não"};
+            int optionIndex = JOptionPane.showOptionDialog(this,
+                    "Tem a certeza desta operação?",
+                    "Confirmação de Acção",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-        if (optionIndex == JOptionPane.YES_OPTION) {
-            String teamToDelete = (String) neighbourTeamsList.getSelectedValue();
-            
-            for(int i = 0; i < dlm.size(); i++){
-                if(teamToDelete.equalsIgnoreCase((String) dlm.elementAt(i))){
-                    dlm.removeElementAt(i);
+            if (optionIndex == JOptionPane.YES_OPTION) {
+                for (int i = 0; i < dlm.size(); i++) {
+                    if (teamToDelete.equalsIgnoreCase((String) dlm.elementAt(i))) {
+                        dlm.removeElementAt(i);
+                    }
                 }
             }
-            
-            neighbourTeamsList = new JList(dlm);
+        }
+        else{
+            JOptionPane.showMessageDialog(this,
+                    "Deverá seleccionar uma equipa para eliminação.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_removeNeighbourTeamAction
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addNeighbourTeamButton;
     private javax.swing.JButton cancelButton;
@@ -281,16 +285,16 @@ public class SingleTeamWindow extends javax.swing.JFrame {
         String newTeamName = teamNameTextField.getText();
 
         try {
-            if(newTeamName.equals("")){
+            if (newTeamName.equals("")) {
                 throw new IllegalArgumentException("Deverá inserir uma equipa com um nome diferente de vazio.");
             }
-            
+
             for (Team t : c.getTeams()) {
                 if (t.getTeamName().equalsIgnoreCase(newTeamName)) {
                     throw new IllegalArgumentException("Deverá inserir uma equipa com um nome diferente de uma já existente.");
                 }
             }
-            
+
             ArrayList<String> neighbourTeams = validatingAndInsertingNeighbourTeams();
 
             c.getTeams().add(new Team(newTeamName, neighbourTeams, (String) teamTypeComboBox.getSelectedItem()));
@@ -316,7 +320,7 @@ public class SingleTeamWindow extends javax.swing.JFrame {
                     return true;
                 }
             }
-            
+
             throw new IllegalArgumentException("Deverá alterar uma equipa já existente.");
         } catch (IllegalArgumentException e) {
             errorMsg = e.getMessage();
