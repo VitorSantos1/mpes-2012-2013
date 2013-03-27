@@ -286,27 +286,31 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_loadSaveTeamsAction
 
     private void optionsAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optionsAction
-        Object[] possibilities = {"Algoritmo genético orientado a equipas visitadas",
-            "Algoritmo genético orientado a jornadas",
-            "Pesquisa Tabu"};
+        /*
+         * Deprecated code. It will be replaced by a more powerful window to choose the algorithm and its parameters.
+         
+         Object[] possibilities = {"Algoritmo genético orientado a equipas visitadas",
+         "Algoritmo genético orientado a jornadas",
+         "Pesquisa Tabu"};
 
-        algorithmType = (String) JOptionPane.showInputDialog(this,
-                "Escolha o algoritmo que pretende utilizar para gerar o calendário:",
-                "Opção de geração",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                possibilities,
-                "Seleccionar...");
+         algorithmType = (String) JOptionPane.showInputDialog(this,
+         "Escolha o algoritmo que pretende utilizar para gerar o calendário:",
+         "Opção de geração",
+         JOptionPane.PLAIN_MESSAGE,
+         null,
+         possibilities,
+         "Seleccionar...");
 
-        if (algorithmType != null) {
-            if (algorithmType.equals(possibilities[0])) {
-                algorithmType = "GA-HT";
-            } else if (algorithmType.equals(possibilities[1])) {
-                algorithmType = "GA-M";
-            } else if (algorithmType.equals(possibilities[2])) {
-                algorithmType = "TS";
-            }
-        }
+         if (algorithmType != null) {
+         if (algorithmType.equals(possibilities[0])) {
+         algorithmType = "GA-HT";
+         } else if (algorithmType.equals(possibilities[1])) {
+         algorithmType = "GA-M";
+         } else if (algorithmType.equals(possibilities[2])) {
+         algorithmType = "TS";
+         }
+         }
+         */
     }//GEN-LAST:event_optionsAction
 
     private void generateCalendarAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateCalendarAction
@@ -315,9 +319,8 @@ public class MainWindow extends javax.swing.JFrame {
 
             //At the end of generation, the main window should be able to print the results into the jTable.
             //Also, printing metadata like number os generations and time consumed must be useful to show...
-        }
-        else{
-             JOptionPane.showMessageDialog(this,
+        } else {
+            JOptionPane.showMessageDialog(this,
                     "Deverá seleccionar um algoritmo para gerar um calendário.",
                     "Erro",
                     JOptionPane.ERROR_MESSAGE);
