@@ -5,6 +5,7 @@
 package mpes.sorteio.calendário.jornadas.liga.portugal.gui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -24,6 +25,7 @@ public class MainWindow extends javax.swing.JFrame {
     private Championship c;
     private DefaultListModel dlm;
     private String algorithmType = "";
+    private HashMap<String, String> algorithmOptions = new HashMap<String, String>();
 
     /**
      * Creates new form MainWindow
@@ -35,6 +37,14 @@ public class MainWindow extends javax.swing.JFrame {
 
     public MainWindow(Championship newC) {
         c = newC;
+        initComponents();
+    }
+    
+    public MainWindow(Championship newC, String algorithm, HashMap<String, String> options) {
+        c = newC;
+        algorithmType = algorithm;
+        algorithmOptions = options;
+        
         initComponents();
     }
 
@@ -286,45 +296,19 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_loadSaveTeamsAction
 
     private void optionsAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optionsAction
-        /*
-         * Deprecated code. It will be replaced by a more powerful window to choose the algorithm and its parameters.
-         
-         Object[] possibilities = {"Algoritmo genético orientado a equipas visitadas",
-         "Algoritmo genético orientado a jornadas",
-         "Pesquisa Tabu"};
-
-         algorithmType = (String) JOptionPane.showInputDialog(this,
-         "Escolha o algoritmo que pretende utilizar para gerar o calendário:",
-         "Opção de geração",
-         JOptionPane.PLAIN_MESSAGE,
-         null,
-         possibilities,
-         "Seleccionar...");
-
-         if (algorithmType != null) {
-         if (algorithmType.equals(possibilities[0])) {
-         algorithmType = "GA-HT";
-         } else if (algorithmType.equals(possibilities[1])) {
-         algorithmType = "GA-M";
-         } else if (algorithmType.equals(possibilities[2])) {
-         algorithmType = "TS";
-         }
-         }
-         */
-        
-        new AlgorithmChooserWindow().setVisible(true);
+        new AlgorithmChooserWindow(c).setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_optionsAction
 
     private void generateCalendarAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateCalendarAction
-        if (!algorithmType.equals("")) {
-            GenerationLauncher gl = new GenerationLauncher(c, algorithmType);
+        if (!algorithmType.equals("") && !(algorithmOptions.size() <= 0)) {
+            GenerationLauncher gl = new GenerationLauncher(c, algorithmType, algorithmOptions);
 
             //At the end of generation, the main window should be able to print the results into the jTable.
             //Also, printing metadata like number os generations and time consumed must be useful to show...
         } else {
             JOptionPane.showMessageDialog(this,
-                    "Deverá seleccionar um algoritmo para gerar um calendário.",
+                    "Deverá seleccionar um algoritmo (com parâmetros) para gerar um calendário.",
                     "Erro",
                     JOptionPane.ERROR_MESSAGE);
         }

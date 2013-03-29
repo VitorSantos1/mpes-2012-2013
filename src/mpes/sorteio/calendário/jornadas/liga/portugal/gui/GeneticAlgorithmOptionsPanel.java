@@ -4,6 +4,8 @@
  */
 package mpes.sorteio.calendário.jornadas.liga.portugal.gui;
 
+import java.util.HashMap;
+
 /**
  *
  * @author vitorsantos
@@ -53,6 +55,8 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
         truncationSelectionRatioLabel = new javax.swing.JLabel();
         randomTruncationSelectionRatioCheckBox = new javax.swing.JCheckBox();
         fixedTruncationSelectionRatioTextField = new javax.swing.JTextField();
+        maximumNumberOfStagnatedGenerationsLabel = new javax.swing.JLabel();
+        maximumNumberOfStagnatedGenerationsTextField = new javax.swing.JTextField();
 
         selectionStrategyButtonGroup.add(rankSelectionRadioButton);
         selectionStrategyButtonGroup.add(rouletteWheelSelectionRadioButton);
@@ -72,6 +76,17 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
         rankSelectionLabel.setText("Ranking (Fitness Relativo)");
 
         stagnationActiveCheckBox.setText("Activar");
+        if(stagnationActiveCheckBox.isSelected()){
+            maximumNumberOfStagnatedGenerationsTextField.setEnabled(true);
+        }
+        else{
+            maximumNumberOfStagnatedGenerationsTextField.setEnabled(false);
+        }
+        stagnationActiveCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stagnationActiveCheckBoxActionPerformed(evt);
+            }
+        });
 
         rouletteWheelSelectionLabel.setText("Roleta Russa");
 
@@ -163,39 +178,22 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
             fixedTruncationSelectionRatioTextField.setEnabled(false);
         }
 
+        maximumNumberOfStagnatedGenerationsLabel.setText("N. Máx. de Gerações Estagnadas:");
+
         org.jdesktop.layout.GroupLayout geneticAlgorithmOptionsPanelLayout = new org.jdesktop.layout.GroupLayout(geneticAlgorithmOptionsPanel);
         geneticAlgorithmOptionsPanel.setLayout(geneticAlgorithmOptionsPanelLayout);
         geneticAlgorithmOptionsPanelLayout.setHorizontalGroup(
             geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(optionsSeparator))
-                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                        .add(39, 39, 39)
-                        .add(tournamentSelectionProbabilityLabel)
-                        .add(0, 0, Short.MAX_VALUE)))
+                .add(39, 39, 39)
+                .add(tournamentSelectionProbabilityLabel)
                 .addContainerGap())
             .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
                 .add(14, 14, 14)
                 .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                        .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(generationCountLabel)
-                            .add(stagnationActiveLabel)
-                            .add(terminationConditionsLabel))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                                .add(generationCountTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 213, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .add(14, 14, 14))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                                .add(stagnationActiveCheckBox)
-                                .add(90, 90, 90))))
-                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
                         .add(selectionStrategyLabel)
-                        .addContainerGap())
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
                         .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
@@ -233,6 +231,29 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
                             .add(randomTournamentSelectionProbabilityCheckBox)
                             .add(fixedTournamentSelectionProbabilityTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .add(61, 61, 61))))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(optionsSeparator)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                                .add(20, 20, 20)
+                                .add(maximumNumberOfStagnatedGenerationsLabel)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                .add(maximumNumberOfStagnatedGenerationsTextField))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                                .add(8, 8, 8)
+                                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(generationCountLabel)
+                                    .add(terminationConditionsLabel)
+                                    .add(stagnationActiveLabel))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 33, Short.MAX_VALUE)
+                                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(generationCountTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 213, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(stagnationActiveCheckBox))))
+                        .add(8, 8, 8)))
+                .addContainerGap())
         );
         geneticAlgorithmOptionsPanelLayout.setVerticalGroup(
             geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -279,7 +300,7 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
                     .add(randomTruncationSelectionRatioCheckBox))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(fixedTruncationSelectionRatioTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(optionsSeparator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(terminationConditionsLabel)
@@ -291,51 +312,148 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
                 .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(stagnationActiveLabel)
                     .add(stagnationActiveCheckBox))
-                .add(30, 30, 30))
+                .add(8, 8, 8)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(maximumNumberOfStagnatedGenerationsLabel)
+                    .add(maximumNumberOfStagnatedGenerationsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 447, Short.MAX_VALUE)
-            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .add(geneticAlgorithmOptionsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .add(geneticAlgorithmOptionsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 517, Short.MAX_VALUE)
-            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .add(geneticAlgorithmOptionsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .add(geneticAlgorithmOptionsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void enableTournamentSpecificParameters(boolean willEnable){
+    private void enableTournamentSpecificParameters(boolean willEnable) {
         randomTournamentSelectionProbabilityCheckBox.setEnabled(willEnable);
         fixedTournamentSelectionProbabilityTextField.setEnabled(willEnable);
     }
-    
-    private void enableTruncationSpecificParameters(boolean willEnable){
+
+    private void enableTruncationSpecificParameters(boolean willEnable) {
         randomTruncationSelectionRatioCheckBox.setEnabled(willEnable);
         fixedTruncationSelectionRatioTextField.setEnabled(willEnable);
     }
-    
+
+    public HashMap<String, String> extractParameters() {
+        HashMap<String, String> parameters = new HashMap<String, String>();
+
+        try {
+            selectionAlgorithmParameters(parameters);
+            terminationConditionParameters(parameters);
+        } catch (IllegalArgumentException e) {
+            parameters.clear();
+            parameters.put("errorMsg", e.getMessage());
+
+            return parameters;
+        }
+
+        return parameters;
+    }
+
+    private void selectionAlgorithmParameters(HashMap<String, String> parameters) {
+        if (tournamentSelectionRadioButton.isSelected()) {
+            if (randomTournamentSelectionProbabilityCheckBox.isSelected()) {
+                parameters.put("tournamentSelection", "true");
+                parameters.put("probabilityValue", "random");
+            } else {
+                try {
+                    parameters.put("tournamentSelection", "true");
+
+                    //This line is important to see if the text corresponds to a number or not.
+                    double probability = Double.parseDouble(fixedTournamentSelectionProbabilityTextField.getText());
+                    
+                    if(probability < 0.0 || probability > 1.0){
+                        throw new IllegalArgumentException("Deverá colocar um número compreendido entre 0 e 1!");
+                    }
+                    
+                    parameters.put("probabilityValue", Double.toString(probability));
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Deverá colocar um número válido!");
+                }
+            }
+        } else if (truncationSelectionRadioButton.isSelected()) {
+            if (randomTruncationSelectionRatioCheckBox.isSelected()) {
+                parameters.put("truncationSelection", "true");
+                parameters.put("ratioValue", "random");
+            } else {
+                try {
+                    parameters.put("truncationSelection", "true");
+                    
+                    //This line is important to see if the text corresponds to a number or not.
+                    double ratio = Double.parseDouble(fixedTruncationSelectionRatioTextField.getText());
+                    
+                    if(ratio < 0.0 || ratio > 1.0){
+                        throw new IllegalArgumentException("Deverá colocar um número compreendido entre 0 e 1!");
+                    }
+                    
+                    parameters.put("ratioValue", Double.toString(ratio));
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Deverá colocar um número válido!");
+                }
+            }
+        } else if (rankSelectionRadioButton.isSelected()) {
+            parameters.put("rankSelection", "true");
+        } else if (rouletteWheelSelectionRadioButton.isSelected()) {
+            parameters.put("rouletteWheelSelection", "true");
+        } else if (sigmaScalingSelectionRadioButton.isSelected()) {
+            parameters.put("sigmaScalingSelection", "true");
+        } else if (stochasticSelectionRadioButton.isSelected()) {
+            parameters.put("stochasticSelection", "true");
+        }
+    }
+
+    private void terminationConditionParameters(HashMap<String, String> parameters) {
+        if (generationCountTextField.getText().equals("")) {
+            parameters.put("generationCount", "1");
+        } else {
+            try {
+                //This line is important to see if the text corresponds to a number or not.
+                parameters.put("generationCount", Integer.toString(Integer.parseInt(generationCountTextField.getText())));
+            }
+            catch(NumberFormatException e){
+                throw new IllegalArgumentException("Deverá colocar um número válido!");
+            }
+        }
+        
+        if(stagnationActiveCheckBox.isSelected() && !maximumNumberOfStagnatedGenerationsTextField.getText().equals("")){
+            try{
+                int maxNumOfStagGen = Integer.parseInt(generationCountTextField.getText());
+                
+                if(maxNumOfStagGen < 0){
+                    throw new IllegalArgumentException("Deverá colocar um número válido!");
+                }
+                else if(!(maxNumOfStagGen <= 0)){
+                    parameters.put("stagnation", "true");
+                    parameters.put("maxNumOfStagGen", Integer.toString(maxNumOfStagGen));
+                }
+            }
+            catch(NumberFormatException e){
+                throw new IllegalArgumentException("Deverá colocar um número válido!");
+            }
+            catch(IllegalArgumentException e){
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        }
+
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
     private void rankSelectionRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rankSelectionRadioButtonActionPerformed
         this.enableTournamentSpecificParameters(false);
         this.enableTruncationSpecificParameters(false);
     }//GEN-LAST:event_rankSelectionRadioButtonActionPerformed
 
     private void randomTruncationSelectionRatioCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomTruncationSelectionRatioCheckBoxActionPerformed
-        if(randomTruncationSelectionRatioCheckBox.isSelected()){
+        if (randomTruncationSelectionRatioCheckBox.isSelected()) {
             fixedTruncationSelectionRatioTextField.setEnabled(false);
-        }
-        else{
+        } else {
             fixedTruncationSelectionRatioTextField.setEnabled(true);
         }
     }//GEN-LAST:event_randomTruncationSelectionRatioCheckBoxActionPerformed
@@ -366,20 +484,28 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_truncationSelectionRadioButtonActionPerformed
 
     private void randomTournamentSelectionProbabilityCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomTournamentSelectionProbabilityCheckBoxActionPerformed
-        if(randomTournamentSelectionProbabilityCheckBox.isSelected()){
+        if (randomTournamentSelectionProbabilityCheckBox.isSelected()) {
             fixedTournamentSelectionProbabilityTextField.setEnabled(false);
-        }
-        else{
+        } else {
             fixedTournamentSelectionProbabilityTextField.setEnabled(true);
         }
     }//GEN-LAST:event_randomTournamentSelectionProbabilityCheckBoxActionPerformed
 
+    private void stagnationActiveCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stagnationActiveCheckBoxActionPerformed
+        if (stagnationActiveCheckBox.isSelected()) {
+            maximumNumberOfStagnatedGenerationsTextField.setEnabled(true);
+        } else {
+            maximumNumberOfStagnatedGenerationsTextField.setEnabled(false);
+        }
+    }//GEN-LAST:event_stagnationActiveCheckBoxActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField fixedTournamentSelectionProbabilityTextField;
     private javax.swing.JTextField fixedTruncationSelectionRatioTextField;
     private javax.swing.JLabel generationCountLabel;
     private javax.swing.JTextField generationCountTextField;
     private javax.swing.JPanel geneticAlgorithmOptionsPanel;
+    private javax.swing.JLabel maximumNumberOfStagnatedGenerationsLabel;
+    private javax.swing.JTextField maximumNumberOfStagnatedGenerationsTextField;
     private javax.swing.JSeparator optionsSeparator;
     private javax.swing.JCheckBox randomTournamentSelectionProbabilityCheckBox;
     private javax.swing.JCheckBox randomTruncationSelectionRatioCheckBox;

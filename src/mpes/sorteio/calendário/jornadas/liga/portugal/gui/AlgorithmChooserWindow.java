@@ -4,16 +4,26 @@
  */
 package mpes.sorteio.calendário.jornadas.liga.portugal.gui;
 
+import java.util.HashMap;
+import javax.swing.JOptionPane;
+import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
+
 /**
  *
  * @author vitorsantos
  */
 public class AlgorithmChooserWindow extends javax.swing.JFrame {
 
+    private Championship c;
+    private HashMap<String, String> algorithmOptions;
+
     /**
      * Creates new form AlgorithmChooserWindow
      */
-    public AlgorithmChooserWindow() {
+    public AlgorithmChooserWindow(Championship newC) {
+        c = newC;
+        algorithmOptions = new HashMap<String, String>();
+
         initComponents();
     }
 
@@ -60,6 +70,11 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
         });
 
         okButton.setText("OK");
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout algorithmChooserPanelLayout = new org.jdesktop.layout.GroupLayout(algorithmChooserPanel);
         algorithmChooserPanel.setLayout(algorithmChooserPanelLayout);
@@ -96,12 +111,12 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(algorithmParametersSeparator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(geneticAlgorithmOptionsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 512, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
+                .add(geneticAlgorithmOptionsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 534, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(algorithmChooserPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelButton)
                     .add(okButton))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
@@ -119,20 +134,37 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        // TODO add your handling code here:
+        this.setVisible(false);
+        new MainWindow(c).setVisible(true);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void showCorrespondentAlgorithmOptionsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showCorrespondentAlgorithmOptionsAction
         if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase("Algoritmo Genético")) {
             geneticAlgorithmOptionsPanel.setVisible(true);
-        }
-        else{
+        } else {
             geneticAlgorithmOptionsPanel.setVisible(false);
         }
 
         this.pack();
     }//GEN-LAST:event_showCorrespondentAlgorithmOptionsAction
 
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase("Algoritmo Genético")) {
+            algorithmOptions = geneticAlgorithmOptionsPanel.extractParameters();
+
+            if (algorithmOptions.containsKey("errorMsg")) {
+                JOptionPane.showMessageDialog(this,
+                        algorithmOptions.get("errorMsg"),
+                        "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+
+                return;
+            }
+
+            this.setVisible(false);
+            new MainWindow(c, "GA-HT", algorithmOptions).setVisible(true);
+        }
+    }//GEN-LAST:event_okButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel algorithmChooserPanel;
     private javax.swing.JComboBox algorithmOptionComboBox;

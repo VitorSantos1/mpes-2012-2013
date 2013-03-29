@@ -23,26 +23,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="447" max="32767" attributes="0"/>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="geneticAlgorithmOptionsPanel" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-          </Group>
+          <Component id="geneticAlgorithmOptionsPanel" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <EmptySpace min="0" pref="517" max="32767" attributes="0"/>
-          <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="geneticAlgorithmOptionsPanel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-          </Group>
+          <Component id="geneticAlgorithmOptionsPanel" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -53,40 +39,13 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="optionsSeparator" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                          <Component id="tournamentSelectionProbabilityLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                  <Component id="tournamentSelectionProbabilityLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="generationCountLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="stagnationActiveLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="terminationConditionsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="generationCountTextField" min="-2" pref="213" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="stagnationActiveCheckBox" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="selectionStrategyLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
@@ -139,6 +98,37 @@
                           <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="optionsSeparator" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                                  <Component id="maximumNumberOfStagnatedGenerationsLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="maximumNumberOfStagnatedGenerationsTextField" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="generationCountLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="terminationConditionsLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="stagnationActiveLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace pref="33" max="32767" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="generationCountTextField" min="-2" pref="213" max="-2" attributes="0"/>
+                                      <Component id="stagnationActiveCheckBox" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -196,7 +186,7 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="fixedTruncationSelectionRatioTextField" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="14" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="optionsSeparator" min="-2" pref="12" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="terminationConditionsLabel" min="-2" max="-2" attributes="0"/>
@@ -210,7 +200,12 @@
                       <Component id="stagnationActiveLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="stagnationActiveCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="maximumNumberOfStagnatedGenerationsLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="maximumNumberOfStagnatedGenerationsTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="27" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -247,6 +242,12 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Activar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stagnationActiveCheckBoxActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="if(stagnationActiveCheckBox.isSelected()){&#xa;            maximumNumberOfStagnatedGenerationsTextField.setEnabled(true);&#xa;        }&#xa;        else{&#xa;            maximumNumberOfStagnatedGenerationsTextField.setEnabled(false);&#xa;        }"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="rouletteWheelSelectionLabel">
           <Properties>
@@ -352,6 +353,13 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="        if (tournamentSelectionRadioButton.isSelected()) {&#xa;            fixedTruncationSelectionRatioTextField.setEnabled(true);&#xa;        } else {&#xa;            fixedTruncationSelectionRatioTextField.setEnabled(false);&#xa;        }"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="maximumNumberOfStagnatedGenerationsLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="N. M&#xe1;x. de Gera&#xe7;&#xf5;es Estagnadas:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="maximumNumberOfStagnatedGenerationsTextField">
         </Component>
       </SubComponents>
     </Container>
