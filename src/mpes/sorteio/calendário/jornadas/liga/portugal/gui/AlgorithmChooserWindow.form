@@ -37,32 +37,25 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace pref="16" max="32767" attributes="0"/>
-                          <Component id="geneticAlgorithmOptionsPanel" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="algorithmParametersSeparator" alignment="0" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="algorithmOptionLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="algorithmOptionComboBox" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
-                      </Group>
-                  </Group>
-                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              </Group>
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="104" max="-2" attributes="0"/>
                   <Component id="cancelButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
                   <Component id="okButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="algorithmParametersScrollPane" pref="476" max="32767" attributes="0"/>
+                      <Component id="algorithmParametersSeparator" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="algorithmOptionLabel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="algorithmOptionComboBox" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -76,8 +69,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="algorithmParametersSeparator" min="-2" pref="10" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="geneticAlgorithmOptionsPanel" pref="534" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="algorithmParametersScrollPane" pref="528" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -110,11 +103,6 @@
         </Component>
         <Component class="javax.swing.JSeparator" name="algorithmParametersSeparator">
         </Component>
-        <Component class="mpes.sorteio.calend&#xe1;rio.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel" name="geneticAlgorithmOptionsPanel">
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="if(!((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase(&quot;Algoritmo Gen&#xe9;tico&quot;)){&#xa;    geneticAlgorithmOptionsPanel.setVisible(false);&#xa;}&#xa;else{&#xa;    geneticAlgorithmOptionsPanel.setVisible(true);&#xa;}"/>
-          </AuxValues>
-        </Component>
         <Component class="javax.swing.JButton" name="cancelButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
@@ -131,6 +119,20 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="okButtonActionPerformed"/>
           </Events>
         </Component>
+        <Container class="javax.swing.JScrollPane" name="algorithmParametersScrollPane">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase(&quot;Seleccionar...&quot;)) {&#xa;            algorithmParametersScrollPane.setVisible(false);&#xa;        } else {&#xa;            algorithmParametersScrollPane.setVisible(true);&#xa;        }&#xa;&#xa;        this.pack();"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="mpes.sorteio.calend&#xe1;rio.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel" name="geneticAlgorithmOptionsPanel">
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase(&quot;Algoritmo Gen&#xe9;tico&quot;)) {&#xa;            geneticAlgorithmOptionsPanel.setVisible(true);&#xa;        } else {&#xa;            geneticAlgorithmOptionsPanel.setVisible(false);&#xa;        }&#xa;&#xa;        this.pack();"/>
+              </AuxValues>
+            </Component>
+          </SubComponents>
+        </Container>
       </SubComponents>
     </Container>
   </SubComponents>

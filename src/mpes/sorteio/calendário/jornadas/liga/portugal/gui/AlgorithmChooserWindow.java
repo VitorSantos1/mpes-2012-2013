@@ -40,9 +40,10 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
         algorithmOptionLabel = new javax.swing.JLabel();
         algorithmOptionComboBox = new javax.swing.JComboBox();
         algorithmParametersSeparator = new javax.swing.JSeparator();
-        geneticAlgorithmOptionsPanel = new mpes.sorteio.calendário.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel();
         cancelButton = new javax.swing.JButton();
         okButton = new javax.swing.JButton();
+        algorithmParametersScrollPane = new javax.swing.JScrollPane();
+        geneticAlgorithmOptionsPanel = new mpes.sorteio.calendário.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,13 +55,6 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
                 showCorrespondentAlgorithmOptionsAction(evt);
             }
         });
-
-        if(!((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase("Algoritmo Genético")){
-            geneticAlgorithmOptionsPanel.setVisible(false);
-        }
-        else{
-            geneticAlgorithmOptionsPanel.setVisible(true);
-        }
 
         cancelButton.setText("Cancelar");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -76,30 +70,43 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
             }
         });
 
+        if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase("Seleccionar...")) {
+            algorithmParametersScrollPane.setVisible(false);
+        } else {
+            algorithmParametersScrollPane.setVisible(true);
+        }
+
+        this.pack();
+
+        if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase("Algoritmo Genético")) {
+            geneticAlgorithmOptionsPanel.setVisible(true);
+        } else {
+            geneticAlgorithmOptionsPanel.setVisible(false);
+        }
+
+        this.pack();
+        algorithmParametersScrollPane.setViewportView(geneticAlgorithmOptionsPanel);
+
         org.jdesktop.layout.GroupLayout algorithmChooserPanelLayout = new org.jdesktop.layout.GroupLayout(algorithmChooserPanel);
         algorithmChooserPanel.setLayout(algorithmChooserPanelLayout);
         algorithmChooserPanelLayout.setHorizontalGroup(
             algorithmChooserPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, algorithmChooserPanelLayout.createSequentialGroup()
-                .add(algorithmChooserPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(algorithmChooserPanelLayout.createSequentialGroup()
-                        .addContainerGap(16, Short.MAX_VALUE)
-                        .add(geneticAlgorithmOptionsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(algorithmChooserPanelLayout.createSequentialGroup()
-                        .add(19, 19, 19)
-                        .add(algorithmChooserPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(algorithmParametersSeparator)
-                            .add(algorithmChooserPanelLayout.createSequentialGroup()
-                                .add(algorithmOptionLabel)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(algorithmOptionComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
-                .add(15, 15, 15))
             .add(algorithmChooserPanelLayout.createSequentialGroup()
                 .add(104, 104, 104)
                 .add(cancelButton)
                 .add(110, 110, 110)
                 .add(okButton)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, algorithmChooserPanelLayout.createSequentialGroup()
+                .add(19, 19, 19)
+                .add(algorithmChooserPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(algorithmParametersScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, algorithmParametersSeparator)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, algorithmChooserPanelLayout.createSequentialGroup()
+                        .add(algorithmOptionLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(algorithmOptionComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(15, 15, 15))
         );
         algorithmChooserPanelLayout.setVerticalGroup(
             algorithmChooserPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -110,8 +117,8 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
                     .add(algorithmOptionComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(algorithmParametersSeparator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(geneticAlgorithmOptionsPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 534, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(algorithmParametersScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(algorithmChooserPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelButton)
@@ -139,6 +146,13 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void showCorrespondentAlgorithmOptionsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showCorrespondentAlgorithmOptionsAction
+        if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase("Seleccionar...")) {
+            algorithmParametersScrollPane.setVisible(false);
+        } else {
+            algorithmParametersScrollPane.setVisible(true);
+        }
+        this.pack();
+
         if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase("Algoritmo Genético")) {
             geneticAlgorithmOptionsPanel.setVisible(true);
         } else {
@@ -169,6 +183,7 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
     private javax.swing.JPanel algorithmChooserPanel;
     private javax.swing.JComboBox algorithmOptionComboBox;
     private javax.swing.JLabel algorithmOptionLabel;
+    private javax.swing.JScrollPane algorithmParametersScrollPane;
     private javax.swing.JSeparator algorithmParametersSeparator;
     private javax.swing.JButton cancelButton;
     private mpes.sorteio.calendário.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel geneticAlgorithmOptionsPanel;

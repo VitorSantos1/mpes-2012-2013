@@ -30,6 +30,7 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
 
         selectionStrategyButtonGroup = new javax.swing.ButtonGroup();
         geneticAlgorithmOptionsPanel = new javax.swing.JPanel();
+        optionsSeparator2 = new javax.swing.JSeparator();
         terminationConditionsLabel = new javax.swing.JLabel();
         generationCountLabel = new javax.swing.JLabel();
         generationCountTextField = new javax.swing.JTextField();
@@ -42,7 +43,7 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
         stochasticSelectionLabel = new javax.swing.JLabel();
         tournamentSelectionLabel = new javax.swing.JLabel();
         truncationSelectionLabel = new javax.swing.JLabel();
-        optionsSeparator = new javax.swing.JSeparator();
+        optionsSeparator1 = new javax.swing.JSeparator();
         rankSelectionRadioButton = new javax.swing.JRadioButton();
         rouletteWheelSelectionRadioButton = new javax.swing.JRadioButton();
         sigmaScalingSelectionRadioButton = new javax.swing.JRadioButton();
@@ -57,6 +58,15 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
         fixedTruncationSelectionRatioTextField = new javax.swing.JTextField();
         maximumNumberOfStagnatedGenerationsLabel = new javax.swing.JLabel();
         maximumNumberOfStagnatedGenerationsTextField = new javax.swing.JTextField();
+        fixedMutationProbabilityLabel = new javax.swing.JLabel();
+        fixedMutationProbabilityCheckBox = new javax.swing.JCheckBox();
+        fixedMutationProbabilityTextField = new javax.swing.JTextField();
+        populationNumberLabel = new javax.swing.JLabel();
+        populationNumberTextField = new javax.swing.JTextField();
+        elitismLabel = new javax.swing.JLabel();
+        elitismCheckBox = new javax.swing.JCheckBox();
+        elitismTextField = new javax.swing.JTextField();
+        initialDataLabel = new javax.swing.JLabel();
 
         selectionStrategyButtonGroup.add(rankSelectionRadioButton);
         selectionStrategyButtonGroup.add(rouletteWheelSelectionRadioButton);
@@ -64,6 +74,8 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
         selectionStrategyButtonGroup.add(stochasticSelectionRadioButton);
         selectionStrategyButtonGroup.add(tournamentSelectionRadioButton);
         selectionStrategyButtonGroup.add(truncationSelectionRadioButton);
+
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         terminationConditionsLabel.setText("Condições de Terminação:");
 
@@ -75,7 +87,7 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
 
         rankSelectionLabel.setText("Ranking (Fitness Relativo)");
 
-        stagnationActiveCheckBox.setText("Activar");
+        stagnationActiveCheckBox.setText("Sim");
         if(stagnationActiveCheckBox.isSelected()){
             maximumNumberOfStagnatedGenerationsTextField.setEnabled(true);
         }
@@ -180,155 +192,249 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
 
         maximumNumberOfStagnatedGenerationsLabel.setText("N. Máx. de Gerações Estagnadas:");
 
+        fixedMutationProbabilityLabel.setText("Valor fixo de mutação?");
+
+        fixedMutationProbabilityCheckBox.setText("Sim");
+        if (fixedMutationProbabilityCheckBox.isSelected()) {
+            fixedMutationProbabilityTextField.setEnabled(true);
+        } else {
+            fixedMutationProbabilityTextField.setEnabled(false);
+        }
+        fixedMutationProbabilityCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fixedMutationProbabilityCheckBoxActionPerformed(evt);
+            }
+        });
+
+        populationNumberLabel.setText("Número da população:");
+
+        elitismLabel.setText("Activar Elitistas?");
+
+        elitismCheckBox.setText("Sim");
+        if (elitismCheckBox.isSelected()) {
+            elitismTextField.setEnabled(true);
+        } else {
+            elitismTextField.setEnabled(false);
+        }
+        elitismCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                elitismCheckBoxActionPerformed(evt);
+            }
+        });
+
+        initialDataLabel.setText("Dados iniciais:");
+
         org.jdesktop.layout.GroupLayout geneticAlgorithmOptionsPanelLayout = new org.jdesktop.layout.GroupLayout(geneticAlgorithmOptionsPanel);
         geneticAlgorithmOptionsPanel.setLayout(geneticAlgorithmOptionsPanelLayout);
         geneticAlgorithmOptionsPanelLayout.setHorizontalGroup(
             geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(populationNumberLabel)
+                .add(32, 32, 32)
+                .add(populationNumberTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 241, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(elitismLabel)
+                .add(71, 71, 71)
+                .add(elitismCheckBox)
+                .add(12, 12, 12)
+                .add(elitismTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 174, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(optionsSeparator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 415, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(selectionStrategyLabel))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(rankSelectionLabel)
+                .add(210, 210, 210)
+                .add(rankSelectionRadioButton))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(rouletteWheelSelectionLabel)
+                .add(292, 292, 292)
+                .add(rouletteWheelSelectionRadioButton))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(sigmaScalingSelectionLabel)
+                .add(141, 141, 141)
+                .add(sigmaScalingSelectionRadioButton))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(stochasticSelectionLabel)
+                .add(243, 243, 243)
+                .add(stochasticSelectionRadioButton))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(tournamentSelectionLabel)
+                .add(94, 94, 94)
+                .add(tournamentSelectionRadioButton))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
                 .add(39, 39, 39)
                 .add(tournamentSelectionProbabilityLabel)
-                .addContainerGap())
+                .add(78, 78, 78)
+                .add(randomTournamentSelectionProbabilityCheckBox))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(244, 244, 244)
+                .add(fixedTournamentSelectionProbabilityTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(truncationSelectionLabel)
+                .add(289, 289, 289)
+                .add(truncationSelectionRadioButton))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(24, 24, 24)
+                .add(truncationSelectionRatioLabel)
+                .add(18, 18, 18)
+                .add(randomTruncationSelectionRatioCheckBox))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(244, 244, 244)
+                .add(fixedTruncationSelectionRatioTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(6, 6, 6)
+                .add(optionsSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 423, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(terminationConditionsLabel))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(generationCountLabel)
+                .add(6, 6, 6)
+                .add(generationCountTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 213, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(14, 14, 14)
+                .add(stagnationActiveLabel)
+                .add(70, 70, 70)
+                .add(stagnationActiveCheckBox))
+            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                .add(26, 26, 26)
+                .add(maximumNumberOfStagnatedGenerationsLabel)
+                .add(12, 12, 12)
+                .add(maximumNumberOfStagnatedGenerationsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 176, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
             .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
                 .add(14, 14, 14)
                 .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(initialDataLabel)
                     .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                        .add(selectionStrategyLabel)
-                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                        .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                                .add(stochasticSelectionLabel)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(stochasticSelectionRadioButton))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                                .add(sigmaScalingSelectionLabel)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(sigmaScalingSelectionRadioButton))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                                .add(rouletteWheelSelectionLabel)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(rouletteWheelSelectionRadioButton))
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                                .add(rankSelectionLabel)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(rankSelectionRadioButton))
-                            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                                .add(tournamentSelectionLabel)
-                                .add(18, 18, Short.MAX_VALUE)
-                                .add(tournamentSelectionRadioButton))
-                            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                                .add(truncationSelectionLabel)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .add(truncationSelectionRadioButton)))
-                        .add(21, 21, 21))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                        .add(0, 0, Short.MAX_VALUE)
-                        .add(truncationSelectionRatioLabel)
-                        .add(18, 18, 18)
-                        .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(fixedTruncationSelectionRatioTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(randomTruncationSelectionRatioCheckBox)
-                            .add(randomTournamentSelectionProbabilityCheckBox)
-                            .add(fixedTournamentSelectionProbabilityTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(61, 61, 61))))
-            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(optionsSeparator)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                        .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                                .add(20, 20, 20)
-                                .add(maximumNumberOfStagnatedGenerationsLabel)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(maximumNumberOfStagnatedGenerationsTextField))
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                                .add(8, 8, 8)
-                                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(generationCountLabel)
-                                    .add(terminationConditionsLabel)
-                                    .add(stagnationActiveLabel))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 33, Short.MAX_VALUE)
-                                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(generationCountTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 213, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(stagnationActiveCheckBox))))
-                        .add(8, 8, 8)))
-                .addContainerGap())
+                        .add(fixedMutationProbabilityLabel)
+                        .add(31, 31, 31)
+                        .add(fixedMutationProbabilityCheckBox)
+                        .add(12, 12, 12)
+                        .add(fixedMutationProbabilityTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 174, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
         );
         geneticAlgorithmOptionsPanelLayout.setVerticalGroup(
             geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                .add(15, 15, 15)
-                .add(selectionStrategyLabel)
+                .addContainerGap(21, Short.MAX_VALUE)
+                .add(initialDataLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(rankSelectionLabel)
-                    .add(rankSelectionRadioButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(rouletteWheelSelectionLabel)
-                    .add(rouletteWheelSelectionRadioButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                        .add(sigmaScalingSelectionLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(stochasticSelectionLabel)
-                        .add(18, 18, 18)
-                        .add(tournamentSelectionLabel)
-                        .add(18, 18, 18)
-                        .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(tournamentSelectionProbabilityLabel)
-                            .add(randomTournamentSelectionProbabilityCheckBox)))
+                        .add(6, 6, 6)
+                        .add(fixedMutationProbabilityLabel))
                     .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                        .add(sigmaScalingSelectionRadioButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(stochasticSelectionRadioButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(tournamentSelectionRadioButton)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(2, 2, 2)
+                        .add(fixedMutationProbabilityCheckBox))
+                    .add(fixedMutationProbabilityTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(6, 6, 6)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(6, 6, 6)
+                        .add(populationNumberLabel))
+                    .add(populationNumberTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(6, 6, 6)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(6, 6, 6)
+                        .add(elitismLabel))
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(elitismCheckBox))
+                    .add(elitismTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(12, 12, 12)
+                .add(optionsSeparator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(12, 12, 12)
+                .add(selectionStrategyLabel)
+                .add(13, 13, 13)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(5, 5, 5)
+                        .add(rankSelectionLabel))
+                    .add(rankSelectionRadioButton))
+                .add(6, 6, 6)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(4, 4, 4)
+                        .add(rouletteWheelSelectionLabel))
+                    .add(rouletteWheelSelectionRadioButton))
+                .add(6, 6, 6)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(3, 3, 3)
+                        .add(sigmaScalingSelectionLabel))
+                    .add(sigmaScalingSelectionRadioButton))
+                .add(6, 6, 6)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(stochasticSelectionLabel))
+                    .add(stochasticSelectionRadioButton))
+                .add(6, 6, 6)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(1, 1, 1)
+                        .add(tournamentSelectionLabel))
+                    .add(tournamentSelectionRadioButton))
+                .add(6, 6, 6)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(4, 4, 4)
+                        .add(tournamentSelectionProbabilityLabel))
+                    .add(randomTournamentSelectionProbabilityCheckBox))
+                .add(6, 6, 6)
                 .add(fixedTournamentSelectionProbabilityTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(6, 6, 6)
                 .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
                         .add(7, 7, 7)
                         .add(truncationSelectionLabel))
                     .add(truncationSelectionRadioButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(truncationSelectionRatioLabel)
+                .add(12, 12, 12)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(4, 4, 4)
+                        .add(truncationSelectionRatioLabel))
                     .add(randomTruncationSelectionRatioCheckBox))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(6, 6, 6)
                 .add(fixedTruncationSelectionRatioTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(optionsSeparator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(6, 6, 6)
+                .add(optionsSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(12, 12, 12)
                 .add(terminationConditionsLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(generationCountLabel)
+                .add(12, 12, 12)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(6, 6, 6)
+                        .add(generationCountLabel))
                     .add(generationCountTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(stagnationActiveLabel)
+                .add(6, 6, 6)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(4, 4, 4)
+                        .add(stagnationActiveLabel))
                     .add(stagnationActiveCheckBox))
                 .add(8, 8, 8)
-                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(maximumNumberOfStagnatedGenerationsLabel)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                        .add(6, 6, 6)
+                        .add(maximumNumberOfStagnatedGenerationsLabel))
                     .add(maximumNumberOfStagnatedGenerationsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .add(30, 30, 30))
         );
 
-        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(geneticAlgorithmOptionsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(geneticAlgorithmOptionsPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        add(geneticAlgorithmOptionsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
     }// </editor-fold>//GEN-END:initComponents
 
     private void enableTournamentSpecificParameters(boolean willEnable) {
@@ -441,8 +547,6 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
                 throw new IllegalArgumentException(e.getMessage());
             }
         }
-
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     private void rankSelectionRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rankSelectionRadioButtonActionPerformed
@@ -498,15 +602,42 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
             maximumNumberOfStagnatedGenerationsTextField.setEnabled(false);
         }
     }//GEN-LAST:event_stagnationActiveCheckBoxActionPerformed
+
+    private void fixedMutationProbabilityCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixedMutationProbabilityCheckBoxActionPerformed
+        if (fixedMutationProbabilityCheckBox.isSelected()) {
+            fixedMutationProbabilityTextField.setEnabled(true);
+        } else {
+            fixedMutationProbabilityTextField.setEnabled(false);
+        }
+    }//GEN-LAST:event_fixedMutationProbabilityCheckBoxActionPerformed
+
+    private void elitismCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_elitismCheckBoxActionPerformed
+        if (elitismCheckBox.isSelected()) {
+            elitismTextField.setEnabled(true);
+        } else {
+            elitismTextField.setEnabled(false);
+        }
+    }//GEN-LAST:event_elitismCheckBoxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox elitismCheckBox;
+    private javax.swing.JLabel elitismLabel;
+    private javax.swing.JTextField elitismTextField;
+    private javax.swing.JCheckBox fixedMutationProbabilityCheckBox;
+    private javax.swing.JLabel fixedMutationProbabilityLabel;
+    private javax.swing.JTextField fixedMutationProbabilityTextField;
     private javax.swing.JTextField fixedTournamentSelectionProbabilityTextField;
     private javax.swing.JTextField fixedTruncationSelectionRatioTextField;
     private javax.swing.JLabel generationCountLabel;
     private javax.swing.JTextField generationCountTextField;
     private javax.swing.JPanel geneticAlgorithmOptionsPanel;
+    private javax.swing.JLabel initialDataLabel;
     private javax.swing.JLabel maximumNumberOfStagnatedGenerationsLabel;
     private javax.swing.JTextField maximumNumberOfStagnatedGenerationsTextField;
-    private javax.swing.JSeparator optionsSeparator;
+    private javax.swing.JSeparator optionsSeparator1;
+    private javax.swing.JSeparator optionsSeparator2;
+    private javax.swing.JLabel populationNumberLabel;
+    private javax.swing.JTextField populationNumberTextField;
     private javax.swing.JCheckBox randomTournamentSelectionProbabilityCheckBox;
     private javax.swing.JCheckBox randomTruncationSelectionRatioCheckBox;
     private javax.swing.JLabel rankSelectionLabel;
