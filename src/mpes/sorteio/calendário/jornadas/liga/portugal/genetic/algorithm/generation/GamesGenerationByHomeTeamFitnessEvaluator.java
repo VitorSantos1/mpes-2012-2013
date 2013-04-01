@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
+import mpes.sorteio.calendário.jornadas.liga.portugal.model.Matchday;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Team;
 import org.uncommons.maths.binary.BitString;
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
@@ -51,6 +52,10 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         while (awayGame.length() < nBitsPerTeam) {
             awayGame += "0";
         }
+    }
+
+    public HashMap<BitString, Team> getTeamsByGene() {
+        return teamsByGene;
     }
 
     //Fitness is calculated here.
@@ -118,34 +123,69 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         teams.remove(randomTeamIndex);
     }
 
+    public HashMap<Integer, Matchday> genesToObjectsTranslation(BitString result) {
+        BitString[] keyArray = (BitString[]) teamsByGene.keySet().toArray();
+        HashMap<Integer, Matchday> translatedCalendar = new HashMap<Integer, Matchday>();
+
+        for (int i = 0; i < keyArray.length; i++) {
+            String theCalendar = result.toString().substring(i * keyArray.length,
+                    i * keyArray.length + nBitsPerTeam * keyArray.length);
+
+            int gameIndex = 1;
+
+            while (!(theCalendar.length() < 0)) {
+                String aGame = theCalendar.substring(0, nBitsPerTeam);
+
+                if (!aGame.equalsIgnoreCase(awayGame)) {
+                    Matchday aMatchday = null;
+
+                    if (translatedCalendar.get(gameIndex) == null) {
+                        aMatchday = new Matchday();
+                    } else {
+                        aMatchday = translatedCalendar.get(gameIndex);
+                    }
+
+                    aMatchday.getGameList().add(new Game(teamsByGene.get(keyArray[i]), teamsByGene.get(new BitString(aGame))));
+
+                    translatedCalendar.put(gameIndex, aMatchday);
+                }
+                
+                theCalendar = theCalendar.substring(nBitsPerTeam);
+                gameIndex++;
+            }
+        }
+        
+        return translatedCalendar;
+    }
+
     //Fitness computing functions
     //Restrictions Appliers Fitness Evaluators
     public double detectForbiddenGames(HashMap<BitString, String> candidateCalendar, BitString[] keyArray) {
         double penalty = 0.0;
         Game[] forbiddenGames = (Game[]) GameRestrictions.getForbiddenGames().keySet().toArray();
-        
+
         //It starts the search by the forbidden games
-        for(Game g : forbiddenGames){
+        for (Game g : forbiddenGames) {
             Team homeTeam = g.getVisitedTeam();
             Team awayTeam = g.getVisitorTeam();
-            
+
             //It will search for the correspondent calendar of home team.
-            for(BitString k : keyArray){
-                if(teamsByGene.get(k).getTeamName().equalsIgnoreCase(homeTeam.getTeamName())){
+            for (BitString k : keyArray) {
+                if (teamsByGene.get(k).getTeamName().equalsIgnoreCase(homeTeam.getTeamName())) {
                     String aCalendar = candidateCalendar.get(k);
-                    
+
                     //It will verifies if it has any forbidden teams, according to the integer array indicating the forbidden matchdays.
-                    for(int gameIndex : GameRestrictions.getForbiddenGames().get(g)){
+                    for (int gameIndex : GameRestrictions.getForbiddenGames().get(g)) {
                         String sequence = aCalendar.substring(nBitsPerTeam * (gameIndex - 1), nBitsPerTeam * (gameIndex - 1) + nBitsPerTeam);
-                        
-                        if(!sequence.equals(awayGame) && teamsByGene.get(new BitString(sequence)).getTeamName().equalsIgnoreCase(awayTeam.getTeamName())){
+
+                        if (!sequence.equals(awayGame) && teamsByGene.get(new BitString(sequence)).getTeamName().equalsIgnoreCase(awayTeam.getTeamName())) {
                             penalty -= FORBIDDEN_GAME_PENALTY_VALUE;
                         }
                     }
                 }
             }
         }
-        
+
         return penalty;
     }
 
@@ -201,51 +241,50 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
         Team aTeam = teamsByGene.get(key);
         ArrayList<String> neighbourTeams = aTeam.getNeighbourTeams();
-        
+
         //If a team has others in its proximity
-        if(!neighbourTeams.isEmpty()){
+        if (!neighbourTeams.isEmpty()) {
             String aCalendar = candidateCalendar.get(key);
             int gameIndex = 0;
-            
-            while (!(aCalendar.length() <= 0)){
+
+            while (!(aCalendar.length() <= 0)) {
                 String aGame = aCalendar.substring(0, nBitsPerTeam);
-                
+
                 //It it plays away
-                if(aGame.equals(awayGame)){
-                    for(String teamName : neighbourTeams){
-                        for(BitString k : keyArray){
-                            if(teamsByGene.get(k).getTeamName().equalsIgnoreCase(teamName)){
+                if (aGame.equals(awayGame)) {
+                    for (String teamName : neighbourTeams) {
+                        for (BitString k : keyArray) {
+                            if (teamsByGene.get(k).getTeamName().equalsIgnoreCase(teamName)) {
                                 String otherCalendar = candidateCalendar.get(k);
                                 String otherGame = otherCalendar.substring(nBitsPerTeam * gameIndex, nBitsPerTeam * gameIndex + nBitsPerTeam);
-                                
-                                if(otherGame.equals(awayGame)){
+
+                                if (otherGame.equals(awayGame)) {
                                     penalty -= MORE_THAN_ONE_REGIONAL_TEAM_AWAY_PENALTY_VALUE;
                                 }
                             }
                         }
                     }
-                }
-                //If it plays home
-                else if(!aGame.equals(awayGame)){
-                    for(String teamName : neighbourTeams){
-                        for(BitString k : keyArray){
-                            if(teamsByGene.get(k).getTeamName().equalsIgnoreCase(teamName)){
+                } //If it plays home
+                else if (!aGame.equals(awayGame)) {
+                    for (String teamName : neighbourTeams) {
+                        for (BitString k : keyArray) {
+                            if (teamsByGene.get(k).getTeamName().equalsIgnoreCase(teamName)) {
                                 String otherCalendar = candidateCalendar.get(k);
                                 String otherGame = otherCalendar.substring(nBitsPerTeam * gameIndex, nBitsPerTeam * gameIndex + nBitsPerTeam);
-                                
-                                if(!otherGame.equals(awayGame)){
+
+                                if (!otherGame.equals(awayGame)) {
                                     penalty -= MORE_THAN_ONE_REGIONAL_TEAM_HOME_PENALTY_VALUE;
                                 }
                             }
                         }
                     }
                 }
-                
+
                 gameIndex++;
                 aCalendar = aCalendar.substring(nBitsPerTeam);
             }
         }
-        
+
         return penalty;
     }
 
@@ -272,8 +311,8 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
                 aCalendar = aCalendar.substring(nBitsPerTeam);
             }
-            
-            if(!(gamesCounter <= 1)){
+
+            if (!(gamesCounter <= 1)) {
                 penalty -= MORE_THAN_ONE_BIG_GAME_IN_THE_SAME_STADIUM_PENALTY_VALUE;
             }
         }

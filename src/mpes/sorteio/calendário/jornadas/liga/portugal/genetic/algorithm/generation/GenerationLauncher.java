@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
+import mpes.sorteio.calendário.jornadas.liga.portugal.model.Matchday;
 import org.uncommons.maths.binary.BitString;
 import org.uncommons.maths.random.ContinuousUniformGenerator;
 import org.uncommons.maths.random.MersenneTwisterRNG;
@@ -62,7 +63,7 @@ public class GenerationLauncher {
     public Championship getChampionship() {
         return c;
     }
-
+    
     //Insertion of forbidden games.
     public void insertForbiddenGames() {
         ArrayList<Game> candidateGames = new ArrayList<Game>();
@@ -119,10 +120,6 @@ public class GenerationLauncher {
         //GA-HT: equipa * n de equipas adversárias * n de equipas total
         //GA-M: jornada * n de equipas total * n de jornadas (= n de equipas - 1)
         return teamGeneSize * (c.getTeams().size() - 1) * c.getTeams().size();
-    }
-
-    //It translates information in bits to objects, displaying information for use by MainWindow.
-    public void genesToObjectsTranslation(BitString result) {
     }
 
     //Initialization of generation launcher
@@ -190,9 +187,11 @@ public class GenerationLauncher {
                 return;
             }
 
+            GamesGenerationByHomeTeamFitnessEvaluator ggbhtfe = new GamesGenerationByHomeTeamFitnessEvaluator(c.getTeams(), this.determineTeamGeneSize(c.getTeams().size()));
+            
             GenerationalEvolutionEngine<BitString> gee = new GenerationalEvolutionEngine<BitString>(bsf,
                     pipeline,
-                    new GamesGenerationByHomeTeamFitnessEvaluator(c.getTeams(), this.determineTeamGeneSize(c.getTeams().size())),
+                    ggbhtfe,
                     ss,
                     new MersenneTwisterRNG());
 
@@ -231,7 +230,7 @@ public class GenerationLauncher {
                             Integer.parseInt(algorithmOptions.get("eltePopulation")), new TargetFitness(TARGET_FITNESS, true), cc, s);
                 }
 
-                this.genesToObjectsTranslation(result);
+                c.setMatchDays(ggbhtfe.genesToObjectsTranslation(result));
             }
             else{
                 //TODO: Throw an exception

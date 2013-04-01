@@ -10,9 +10,13 @@ import java.util.ArrayList;
  * @author vitorsantos
  */
 public class Matchday {
-    public ArrayList<Game> gamesList;
+    private ArrayList<Game> gamesList;
     
     public Matchday(){
         gamesList = new ArrayList<Game>();
+    }
+    
+    public ArrayList<Game> getGameList(){
+        return gamesList;
     }
 }

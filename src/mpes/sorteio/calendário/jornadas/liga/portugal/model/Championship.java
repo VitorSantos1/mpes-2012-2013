@@ -28,6 +28,10 @@ public class Championship {
         return matchDays;
     }
     
+    public void setMatchDays(HashMap<Integer, Matchday> m){
+        matchDays = m;
+    }
+    
     public Team getTeamByName(String name){
         for(Team t : teams){
             if(t.getTeamName().equalsIgnoreCase(name)){
