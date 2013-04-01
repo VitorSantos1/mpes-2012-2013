@@ -176,7 +176,7 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
             }
 
             this.setVisible(false);
-            new MainWindow(c, "GA-HT", algorithmOptions).setVisible(true);
+            new MainWindow(c, "GA", algorithmOptions).setVisible(true);
         }
     }//GEN-LAST:event_okButtonActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

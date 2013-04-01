@@ -12,6 +12,8 @@ import java.util.HashMap;
  */
 public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
 
+    static final String DEFAULT_POPULATION_NUMBER = "15";
+
     /**
      * Creates new form GeneticAlgorithmOptionsPanel
      */
@@ -67,6 +69,8 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
         elitismCheckBox = new javax.swing.JCheckBox();
         elitismTextField = new javax.swing.JTextField();
         initialDataLabel = new javax.swing.JLabel();
+        numberOfCrossoverPointsLabel = new javax.swing.JLabel();
+        numberOfCrossoverPointsTextField = new javax.swing.JTextField();
 
         selectionStrategyButtonGroup.add(rankSelectionRadioButton);
         selectionStrategyButtonGroup.add(rouletteWheelSelectionRadioButton);
@@ -224,6 +228,8 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
 
         initialDataLabel.setText("Dados iniciais:");
 
+        numberOfCrossoverPointsLabel.setText("Número de pontos de cruzamento:");
+
         org.jdesktop.layout.GroupLayout geneticAlgorithmOptionsPanelLayout = new org.jdesktop.layout.GroupLayout(geneticAlgorithmOptionsPanel);
         geneticAlgorithmOptionsPanel.setLayout(geneticAlgorithmOptionsPanelLayout);
         geneticAlgorithmOptionsPanelLayout.setHorizontalGroup(
@@ -318,18 +324,27 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
                 .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(initialDataLabel)
                     .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                        .add(fixedMutationProbabilityLabel)
-                        .add(31, 31, 31)
-                        .add(fixedMutationProbabilityCheckBox)
+                        .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
+                                .add(fixedMutationProbabilityLabel)
+                                .add(31, 31, 31)
+                                .add(fixedMutationProbabilityCheckBox))
+                            .add(numberOfCrossoverPointsLabel))
                         .add(12, 12, 12)
-                        .add(fixedMutationProbabilityTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 174, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                        .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(fixedMutationProbabilityTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                            .add(numberOfCrossoverPointsTextField)))))
         );
         geneticAlgorithmOptionsPanelLayout.setVerticalGroup(
             geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
-                .addContainerGap(21, Short.MAX_VALUE)
-                .add(initialDataLabel)
+                .addContainerGap(16, Short.MAX_VALUE)
+                .add(initialDataLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 16, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(numberOfCrossoverPointsLabel)
+                    .add(numberOfCrossoverPointsTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(geneticAlgorithmOptionsPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(geneticAlgorithmOptionsPanelLayout.createSequentialGroup()
                         .add(6, 6, 6)
@@ -434,7 +449,7 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
                 .add(30, 30, 30))
         );
 
-        add(geneticAlgorithmOptionsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        add(geneticAlgorithmOptionsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 460, 720));
     }// </editor-fold>//GEN-END:initComponents
 
     private void enableTournamentSpecificParameters(boolean willEnable) {
@@ -451,6 +466,7 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
         HashMap<String, String> parameters = new HashMap<String, String>();
 
         try {
+            initialDataAlgorithmParameters(parameters);
             selectionAlgorithmParameters(parameters);
             terminationConditionParameters(parameters);
         } catch (IllegalArgumentException e) {
@@ -474,11 +490,11 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
 
                     //This line is important to see if the text corresponds to a number or not.
                     double probability = Double.parseDouble(fixedTournamentSelectionProbabilityTextField.getText());
-                    
-                    if(probability < 0.0 || probability > 1.0){
+
+                    if (probability < 0.0 || probability > 1.0) {
                         throw new IllegalArgumentException("Deverá colocar um número compreendido entre 0 e 1!");
                     }
-                    
+
                     parameters.put("probabilityValue", Double.toString(probability));
                 } catch (NumberFormatException e) {
                     throw new IllegalArgumentException("Deverá colocar um número válido!");
@@ -491,14 +507,14 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
             } else {
                 try {
                     parameters.put("truncationSelection", "true");
-                    
+
                     //This line is important to see if the text corresponds to a number or not.
                     double ratio = Double.parseDouble(fixedTruncationSelectionRatioTextField.getText());
-                    
-                    if(ratio < 0.0 || ratio > 1.0){
+
+                    if (ratio < 0.0 || ratio > 1.0) {
                         throw new IllegalArgumentException("Deverá colocar um número compreendido entre 0 e 1!");
                     }
-                    
+
                     parameters.put("ratioValue", Double.toString(ratio));
                 } catch (NumberFormatException e) {
                     throw new IllegalArgumentException("Deverá colocar um número válido!");
@@ -521,31 +537,121 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
         } else {
             try {
                 //This line is important to see if the text corresponds to a number or not.
-                parameters.put("generationCount", Integer.toString(Integer.parseInt(generationCountTextField.getText())));
-            }
-            catch(NumberFormatException e){
+                int genCount = Integer.parseInt(generationCountTextField.getText());
+
+                if (genCount < 1) {
+                    throw new IllegalArgumentException("Deverá colocar um número válido!");
+                } else {
+                    parameters.put("generationCount", Integer.toString(genCount));
+                }
+            } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("Deverá colocar um número válido!");
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException(e.getMessage());
             }
         }
-        
-        if(stagnationActiveCheckBox.isSelected() && !maximumNumberOfStagnatedGenerationsTextField.getText().equals("")){
-            try{
+
+        if (stagnationActiveCheckBox.isSelected() && !maximumNumberOfStagnatedGenerationsTextField.getText().equals("")) {
+            try {
                 int maxNumOfStagGen = Integer.parseInt(generationCountTextField.getText());
-                
-                if(maxNumOfStagGen < 0){
+
+                if (maxNumOfStagGen < 0) {
                     throw new IllegalArgumentException("Deverá colocar um número válido!");
-                }
-                else if(!(maxNumOfStagGen <= 0)){
+                } else if (!(maxNumOfStagGen <= 0)) {
                     parameters.put("stagnation", "true");
                     parameters.put("maxNumOfStagGen", Integer.toString(maxNumOfStagGen));
                 }
-            }
-            catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 throw new IllegalArgumentException("Deverá colocar um número válido!");
-            }
-            catch(IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 throw new IllegalArgumentException(e.getMessage());
             }
+        }
+    }
+
+    private void initialDataAlgorithmParameters(HashMap<String, String> parameters) {
+        if (numberOfCrossoverPointsTextField.getText().equals("")) {
+            parameters.put("numberOfCrossoverPoints", "1");
+        } else {
+            try {
+                int nCrossoverP = Integer.parseInt(numberOfCrossoverPointsTextField.getText());
+
+                if (nCrossoverP < 1) {
+                    throw new IllegalArgumentException("Deverá colocar um número válido (mínimo 1 ponto de cruzamento)!");
+                } else {
+                    parameters.put("numberOfCrossoverPoints", Integer.toString(nCrossoverP));
+                }
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Deverá colocar um número válido!");
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        }
+
+        if (fixedMutationProbabilityCheckBox.isSelected()) {
+            if (fixedMutationProbabilityTextField.getText().equals("")) {
+                parameters.put("mutationProbability", "random");
+            } else {
+                try {
+                    double fixedMutation = Double.parseDouble(fixedMutationProbabilityTextField.getText());
+
+                    if (fixedMutation < 0.0 || fixedMutation > 1.0) {
+                        throw new IllegalArgumentException("Deverá colocar um número válido (entre 0 e 1)!");
+                    } else {
+                        parameters.put("mutationProbability", Double.toString(fixedMutation));
+                    }
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Deverá colocar um número válido!");
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalArgumentException(e.getMessage());
+                }
+            }
+        } else if (!fixedMutationProbabilityCheckBox.isSelected()) {
+            parameters.put("mutationProbability", "random");
+        }
+
+        if (populationNumberTextField.getText().equals("")) {
+            parameters.put("initialPopulation", DEFAULT_POPULATION_NUMBER);
+        } else {
+            try {
+                int initialPopulation = Integer.parseInt(populationNumberTextField.getText());
+
+                if (initialPopulation < 2) {
+                    throw new IllegalArgumentException("Deverá colocar um número mínimo na população (pelo menos, 2)!");
+                } else {
+                    parameters.put("initialPopulation", Integer.toString(initialPopulation));
+                }
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Deverá colocar um número válido!");
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        }
+
+        if (elitismCheckBox.isSelected()) {
+            if (elitismTextField.getText().equals("")) {
+                parameters.put("elitePopulation", "0");
+            } else {
+                try {
+                    int elitePopulation = Integer.parseInt(elitismTextField.getText());
+                    
+                    if(elitePopulation < 0){
+                        throw new IllegalArgumentException("Deverá colocar um número válido!");
+                    }
+                    else if(!(elitePopulation < Integer.parseInt(parameters.get("initialPopulation")))){
+                        throw new IllegalArgumentException("Deverá colocar um número de elitistas menor que o número total da população!");
+                    }
+                    else{
+                        parameters.put("elitePopulation", Integer.toString(elitePopulation));
+                    }
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Deverá colocar um número válido!");
+                } catch (IllegalArgumentException e) {
+                    throw new IllegalArgumentException(e.getMessage());
+                }
+            }
+        } else if (!elitismCheckBox.isSelected()) {
+            parameters.put("elitePopulation", "0");
         }
     }
 
@@ -618,7 +724,6 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
             elitismTextField.setEnabled(false);
         }
     }//GEN-LAST:event_elitismCheckBoxActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox elitismCheckBox;
     private javax.swing.JLabel elitismLabel;
@@ -634,6 +739,8 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
     private javax.swing.JLabel initialDataLabel;
     private javax.swing.JLabel maximumNumberOfStagnatedGenerationsLabel;
     private javax.swing.JTextField maximumNumberOfStagnatedGenerationsTextField;
+    private javax.swing.JLabel numberOfCrossoverPointsLabel;
+    private javax.swing.JTextField numberOfCrossoverPointsTextField;
     private javax.swing.JSeparator optionsSeparator1;
     private javax.swing.JSeparator optionsSeparator2;
     private javax.swing.JLabel populationNumberLabel;

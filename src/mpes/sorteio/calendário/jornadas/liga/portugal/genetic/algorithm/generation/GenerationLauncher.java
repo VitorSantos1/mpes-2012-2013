@@ -99,7 +99,7 @@ public class GenerationLauncher {
 
     //Determine the size of gene, according to how the GA will be operated.
     public int determineTeamGeneSize(int nTeams) {
-        if (algorithmType.equals("GA-HT")) {
+        if (algorithmType.equals("GA")) {
             //Adding a sequence for all 0's.
             nTeams += 1;
         }
@@ -128,7 +128,7 @@ public class GenerationLauncher {
     //Initialization of generation launcher
     @SuppressWarnings("UnusedAssignment")
     public void start() {
-        if (algorithmType.equals("GA-HT")) {
+        if (algorithmType.equals("GA")) {
             BitStringFactory bsf = new BitStringFactory(this.determineGeneSize());
             List<EvolutionaryOperator<BitString>> operators = new LinkedList<EvolutionaryOperator<BitString>>();
 
@@ -139,13 +139,28 @@ public class GenerationLauncher {
              *
              * This operations can be done with an auxiliary GUI Tool...
              */
-            operators.add(new CustomBitStringCrossover(this.determineTeamGeneSize(c.getTeams().size())));
-            operators.add(new BitStringMutation(new Probability(0.02)));
+            if (algorithmOptions.get("numberOfCrossoverPoints") != null
+                    && Integer.parseInt(algorithmOptions.get("numberOfCrossoverPoints")) != 1) {
+                operators.add(new CustomBitStringCrossover(this.determineTeamGeneSize(c.getTeams().size())));
+            } else if (algorithmOptions.get("numberOfCrossoverPoints") != null) {
+                operators.add(new CustomBitStringCrossover(Integer.parseInt(algorithmOptions.get("numberOfCrossoverPoints")),
+                        this.determineTeamGeneSize(c.getTeams().size())));
+            } else {
+                //TODO: Throw an exception
+                return;
+            }
+
+            if (algorithmOptions.get("mutationProbability") != null
+                    && !algorithmOptions.get("mutationProbability").equalsIgnoreCase("random")) {
+                operators.add(new BitStringMutation(new Probability(Double.parseDouble(algorithmOptions.get("mutationProbability")))));
+            } else if (algorithmOptions.get("mutationProbability") != null) {
+                operators.add(new BitStringMutation(new Probability(new ContinuousUniformGenerator(0.0, 0.4, new MersenneTwisterRNG()).nextValue())));
+            } else {
+                //TODO: Throw an exception
+                return;
+            }
 
             EvolutionaryOperator<BitString> pipeline = new EvolutionPipeline<BitString>(operators);
-            GenerationalEvolutionEngine<BitString> gee = null;
-
-
             SelectionStrategy<? super BitString> ss = null;
 
             if (algorithmOptions.containsKey("rankSelection")) {
@@ -175,7 +190,7 @@ public class GenerationLauncher {
                 return;
             }
 
-            gee = new GenerationalEvolutionEngine<BitString>(bsf,
+            GenerationalEvolutionEngine<BitString> gee = new GenerationalEvolutionEngine<BitString>(bsf,
                     pipeline,
                     new GamesGenerationByHomeTeamFitnessEvaluator(c.getTeams(), this.determineTeamGeneSize(c.getTeams().size())),
                     ss,
@@ -201,18 +216,26 @@ public class GenerationLauncher {
                 s = new Stagnation(Integer.parseInt(algorithmOptions.get("stagnation")), true);
             }
 
-            if (cc == null && s == null) {
-                result = gee.evolve(15, 0, new TargetFitness(TARGET_FITNESS, true));
-            } else if (cc != null && s == null) {
-                result = gee.evolve(15, 0, new TargetFitness(TARGET_FITNESS, true), cc);
-            } else if (cc == null && s != null) {
-                result = gee.evolve(15, 0, new TargetFitness(TARGET_FITNESS, true), s);
-            } else {
-                result = gee.evolve(15, 0, new TargetFitness(TARGET_FITNESS, true), cc, s);
+            if (algorithmOptions.get("initialPopulation") != null && algorithmOptions.get("elitePopulation") != null) {
+                if (cc == null && s == null) {
+                    result = gee.evolve(Integer.parseInt(algorithmOptions.get("initialPopulation")), 
+                            Integer.parseInt(algorithmOptions.get("eltePopulation")), new TargetFitness(TARGET_FITNESS, true));
+                } else if (cc != null && s == null) {
+                    result = gee.evolve(Integer.parseInt(algorithmOptions.get("initialPopulation")), 
+                            Integer.parseInt(algorithmOptions.get("eltePopulation")), new TargetFitness(TARGET_FITNESS, true), cc);
+                } else if (cc == null && s != null) {
+                    result = gee.evolve(Integer.parseInt(algorithmOptions.get("initialPopulation")), 
+                            Integer.parseInt(algorithmOptions.get("eltePopulation")), new TargetFitness(TARGET_FITNESS, true), s);
+                } else {
+                    result = gee.evolve(Integer.parseInt(algorithmOptions.get("initialPopulation")), 
+                            Integer.parseInt(algorithmOptions.get("eltePopulation")), new TargetFitness(TARGET_FITNESS, true), cc, s);
+                }
+
+                this.genesToObjectsTranslation(result);
             }
-
-            this.genesToObjectsTranslation(result);
-
+            else{
+                //TODO: Throw an exception
+            }
         }
     }
 }
