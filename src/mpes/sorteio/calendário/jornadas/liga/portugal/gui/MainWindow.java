@@ -6,11 +6,15 @@ package mpes.sorteio.calendário.jornadas.liga.portugal.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import mpes.sorteio.calendário.jornadas.liga.portugal.genetic.algorithm.generation.GenerationLauncher;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
+import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
+import mpes.sorteio.calendário.jornadas.liga.portugal.model.Matchday;
 import mpes.sorteio.calendário.jornadas.liga.portugal.model.Team;
 
 /**
@@ -39,12 +43,12 @@ public class MainWindow extends javax.swing.JFrame {
         c = newC;
         initComponents();
     }
-    
+
     public MainWindow(Championship newC, String algorithm, HashMap<String, String> options) {
         c = newC;
         algorithmType = algorithm;
         algorithmOptions = options;
-        
+
         initComponents();
     }
 
@@ -302,8 +306,41 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void generateCalendarAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generateCalendarAction
         if (!algorithmType.equals("") && !(algorithmOptions.size() <= 0)) {
+            //Execution of GenerationLauncher and final calendar retrieveing
             GenerationLauncher gl = new GenerationLauncher(c, algorithmType, algorithmOptions);
+            HashMap<Integer, Matchday> finalCalendar = gl.getChampionship().getMatchDays();
 
+            //Prepare Table and insert data
+            //Although Vector library is obsolete, it's necessary to construct the table...
+            Vector<String> calendarColumns = new Vector<String>();
+            calendarColumns.add("Jornada");
+            calendarColumns.add("Equipa Visitada");
+            calendarColumns.add("Equipa Visitante");
+
+            Vector<Vector<String>> calendarRows = new Vector<Vector<String>>();
+            Integer[] matchdayIndexes = (Integer[]) finalCalendar.keySet().toArray();
+
+            for (Integer index : matchdayIndexes) {
+                ArrayList<Game> gamesOfThisMatchday = finalCalendar.get(index).getGameList();
+
+                for (int i = 0; i < gamesOfThisMatchday.size(); i++) {
+                    Vector<String> calendarRow = new Vector<String>();
+
+                    if (i == 0) {
+                        calendarRow.add(Integer.toString(index));
+                    } else {
+                        calendarRow.add("");
+                    }
+
+                    calendarRow.add(gamesOfThisMatchday.get(i).getVisitedTeam().getTeamName());
+                    calendarRow.add(gamesOfThisMatchday.get(i).getVisitorTeam().getTeamName());
+
+                    calendarRows.add(calendarRow);
+                }
+            }
+
+            calendarTable = new JTable(calendarRows, calendarColumns);
+            
             //At the end of generation, the main window should be able to print the results into the jTable.
             //Also, printing metadata like number os generations and time consumed must be useful to show...
         } else {
