@@ -119,7 +119,7 @@ public class GenerationLauncher {
 
         //GA-HT: equipa * n de equipas adversárias * n de equipas total
         //GA-M: jornada * n de equipas total * n de jornadas (= n de equipas - 1)
-        return teamGeneSize * (c.getTeams().size() - 1) * c.getTeams().size();
+        return teamGeneSize * c.getTeams().size() * c.getTeams().size();
     }
 
     //Initialization of generation launcher
@@ -212,22 +212,22 @@ public class GenerationLauncher {
             }
 
             if (algorithmOptions.containsKey("stagnation")) {
-                s = new Stagnation(Integer.parseInt(algorithmOptions.get("stagnation")), true);
+                s = new Stagnation(Integer.parseInt(algorithmOptions.get("stagnation")), false);
             }
 
             if (algorithmOptions.get("initialPopulation") != null && algorithmOptions.get("elitePopulation") != null) {
                 if (cc == null && s == null) {
                     result = gee.evolve(Integer.parseInt(algorithmOptions.get("initialPopulation")), 
-                            Integer.parseInt(algorithmOptions.get("eltePopulation")), new TargetFitness(TARGET_FITNESS, true));
+                            Integer.parseInt(algorithmOptions.get("elitePopulation")), new TargetFitness(TARGET_FITNESS, false));
                 } else if (cc != null && s == null) {
                     result = gee.evolve(Integer.parseInt(algorithmOptions.get("initialPopulation")), 
-                            Integer.parseInt(algorithmOptions.get("eltePopulation")), new TargetFitness(TARGET_FITNESS, true), cc);
+                            Integer.parseInt(algorithmOptions.get("elitePopulation")), new TargetFitness(TARGET_FITNESS, false), cc);
                 } else if (cc == null && s != null) {
                     result = gee.evolve(Integer.parseInt(algorithmOptions.get("initialPopulation")), 
-                            Integer.parseInt(algorithmOptions.get("eltePopulation")), new TargetFitness(TARGET_FITNESS, true), s);
+                            Integer.parseInt(algorithmOptions.get("elitePopulation")), new TargetFitness(TARGET_FITNESS, false), s);
                 } else {
                     result = gee.evolve(Integer.parseInt(algorithmOptions.get("initialPopulation")), 
-                            Integer.parseInt(algorithmOptions.get("eltePopulation")), new TargetFitness(TARGET_FITNESS, true), cc, s);
+                            Integer.parseInt(algorithmOptions.get("elitePopulation")), new TargetFitness(TARGET_FITNESS, false), cc, s);
                 }
 
                 c.setMatchDays(ggbhtfe.genesToObjectsTranslation(result));

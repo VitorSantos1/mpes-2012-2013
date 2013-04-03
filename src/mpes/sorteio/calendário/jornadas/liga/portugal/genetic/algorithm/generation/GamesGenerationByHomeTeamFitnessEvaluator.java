@@ -24,7 +24,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     public int nBitsPerTeam;
     public HashMap<BitString, Team> teamsByGene;
     public String awayGame;
-    public static final int OPTIMAL_SOLUTION = 500;
+    public static final int OPTIMAL_SOLUTION = 0;
     public static final int MIRROR_IMAGE_PENALTY_VALUE = 300;
     public static final int MORE_THAN_ONE_GAME_AGAINST_THE_SAME_TEAM_PENALTY_VALUE = 200;
     public static final int DOESNT_RECEIVE_ALL_TEAMS_PENALTY_VALUE = 200;
@@ -61,7 +61,9 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     //Fitness is calculated here.
     @Override
     public double getFitness(BitString t, List<? extends BitString> list) {
-        BitString[] keyArray = (BitString[]) teamsByGene.keySet().toArray();
+        BitString[] keyArray = new BitString[teamsByGene.keySet().size()];
+        teamsByGene.keySet().toArray(keyArray);
+
         HashMap<BitString, String> candidateCalendar = atributeCandidateCalendarToEachTeam(t, keyArray);
 
         int fitness = OPTIMAL_SOLUTION;
@@ -85,7 +87,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     //Here, it evaluates if the fittest individual has the highest score possible or not.
     @Override
     public boolean isNatural() {
-        return true;
+        return false;
     }
 
     private HashMap<BitString, String> atributeCandidateCalendarToEachTeam(BitString t, BitString[] keyArray) {
@@ -124,7 +126,8 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     }
 
     public HashMap<Integer, Matchday> genesToObjectsTranslation(BitString result) {
-        BitString[] keyArray = (BitString[]) teamsByGene.keySet().toArray();
+        BitString[] keyArray = new BitString[teamsByGene.keySet().size()];
+        teamsByGene.keySet().toArray(keyArray);
         HashMap<Integer, Matchday> translatedCalendar = new HashMap<Integer, Matchday>();
 
         for (int i = 0; i < keyArray.length; i++) {
@@ -133,7 +136,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
             int gameIndex = 1;
 
-            while (!(theCalendar.length() < 0)) {
+            while (!(theCalendar.length() <= 0)) {
                 String aGame = theCalendar.substring(0, nBitsPerTeam);
 
                 if (!aGame.equalsIgnoreCase(awayGame)) {
@@ -149,12 +152,12 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
                     translatedCalendar.put(gameIndex, aMatchday);
                 }
-                
+
                 theCalendar = theCalendar.substring(nBitsPerTeam);
                 gameIndex++;
             }
         }
-        
+
         return translatedCalendar;
     }
 
@@ -162,7 +165,8 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
     //Restrictions Appliers Fitness Evaluators
     public double detectForbiddenGames(HashMap<BitString, String> candidateCalendar, BitString[] keyArray) {
         double penalty = 0.0;
-        Game[] forbiddenGames = (Game[]) GameRestrictions.getForbiddenGames().keySet().toArray();
+        Game[] forbiddenGames = new Game[GameRestrictions.getForbiddenGames().keySet().size()];
+        GameRestrictions.getForbiddenGames().keySet().toArray(forbiddenGames);
 
         //It starts the search by the forbidden games
         for (Game g : forbiddenGames) {
@@ -178,8 +182,8 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
                     for (int gameIndex : GameRestrictions.getForbiddenGames().get(g)) {
                         String sequence = aCalendar.substring(nBitsPerTeam * (gameIndex - 1), nBitsPerTeam * (gameIndex - 1) + nBitsPerTeam);
 
-                        if (!sequence.equals(awayGame) && teamsByGene.get(new BitString(sequence)).getTeamName().equalsIgnoreCase(awayTeam.getTeamName())) {
-                            penalty -= FORBIDDEN_GAME_PENALTY_VALUE;
+                        if (!sequence.equals(awayGame) && teamsByGene.get(new BitString(sequence)) != null && teamsByGene.get(new BitString(sequence)).getTeamName().equalsIgnoreCase(awayTeam.getTeamName())) {
+                            penalty += FORBIDDEN_GAME_PENALTY_VALUE;
                         }
                     }
                 }
@@ -222,7 +226,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
                             //If this game is a big one, a penalty is applied
                             if (opponentOfThisTeam != null && (opponentOfThisTeam.getTeamType().equalsIgnoreCase("Equipa Grande")
                                     || opponentOfThisTeam.getTeamType().equalsIgnoreCase("Equipa \"B\" Grande"))) {
-                                penalty -= TWO_OR_MORE_CONSECUTIVE_BIG_GAMES_PENALTY_VALUE;
+                                penalty += TWO_OR_MORE_CONSECUTIVE_BIG_GAMES_PENALTY_VALUE;
                             }
                         }
                     }
@@ -259,7 +263,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
                                 String otherGame = otherCalendar.substring(nBitsPerTeam * gameIndex, nBitsPerTeam * gameIndex + nBitsPerTeam);
 
                                 if (otherGame.equals(awayGame)) {
-                                    penalty -= MORE_THAN_ONE_REGIONAL_TEAM_AWAY_PENALTY_VALUE;
+                                    penalty += MORE_THAN_ONE_REGIONAL_TEAM_AWAY_PENALTY_VALUE;
                                 }
                             }
                         }
@@ -273,7 +277,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
                                 String otherGame = otherCalendar.substring(nBitsPerTeam * gameIndex, nBitsPerTeam * gameIndex + nBitsPerTeam);
 
                                 if (!otherGame.equals(awayGame)) {
-                                    penalty -= MORE_THAN_ONE_REGIONAL_TEAM_HOME_PENALTY_VALUE;
+                                    penalty += MORE_THAN_ONE_REGIONAL_TEAM_HOME_PENALTY_VALUE;
                                 }
                             }
                         }
@@ -313,7 +317,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
             }
 
             if (!(gamesCounter <= 1)) {
-                penalty -= MORE_THAN_ONE_BIG_GAME_IN_THE_SAME_STADIUM_PENALTY_VALUE;
+                penalty += MORE_THAN_ONE_BIG_GAME_IN_THE_SAME_STADIUM_PENALTY_VALUE;
             }
         }
 
@@ -331,7 +335,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
             if ((aGame.equalsIgnoreCase(awayGame) && theNextGame.equalsIgnoreCase(awayGame))
                     || (!aGame.equalsIgnoreCase(awayGame) && !theNextGame.equalsIgnoreCase(awayGame))) {
-                penalty -= MORE_THAN_ONE_CONSECUTIVE_HOME_OR_AWAY_GAME_PENALTY_VALUE;
+                penalty += MORE_THAN_ONE_CONSECUTIVE_HOME_OR_AWAY_GAME_PENALTY_VALUE;
             }
 
             aCalendar = aCalendar.substring(nBitsPerTeam);
@@ -350,7 +354,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
         if ((firstGame.equalsIgnoreCase(awayGame) && lastGame.equalsIgnoreCase(awayGame))
                 || (!firstGame.equalsIgnoreCase(awayGame) && !lastGame.equalsIgnoreCase(awayGame))) {
-            penalty -= BOTH_GAMES_IN_HOME_OR_AWAY_PENALTY_VALUE;
+            penalty += BOTH_GAMES_IN_HOME_OR_AWAY_PENALTY_VALUE;
         }
 
         return penalty;
@@ -365,7 +369,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
         while (!(aCalendar.length() <= 0)) {
             if (aCalendar.substring(0, nBitsPerTeam).equalsIgnoreCase(key.toString())) {
-                penalty -= MIRROR_IMAGE_PENALTY_VALUE;
+                penalty += MIRROR_IMAGE_PENALTY_VALUE;
             }
 
             aCalendar = aCalendar.substring(nBitsPerTeam);
@@ -392,13 +396,15 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
             String sequence = aCalendar.substring(0, nBitsPerTeam);
 
             if (!sequence.equalsIgnoreCase(this.awayGame)) {
-                int nTimes = nTimesInCalendar.get(new BitString(sequence));
+                Integer nTimes = nTimesInCalendar.get(new BitString(sequence));
 
-                if (!(nTimes <= 1)) {
-                    penalty -= MORE_THAN_ONE_GAME_AGAINST_THE_SAME_TEAM_PENALTY_VALUE;
+                if (nTimes != null) {
+                    if (!(nTimes <= 1)) {
+                        penalty += MORE_THAN_ONE_GAME_AGAINST_THE_SAME_TEAM_PENALTY_VALUE;
+                    }
+
+                    nTimesInCalendar.put(new BitString(sequence), nTimes++);
                 }
-
-                nTimesInCalendar.put(new BitString(sequence), nTimes++);
             }
 
             aCalendar = aCalendar.substring(nBitsPerTeam);
@@ -429,12 +435,12 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         //Test if the number of games is even or odd.
         if (gamesCounter % 2 == 0) {
             if (visitedTeamsCounter != (gamesCounter / 2)) {
-                penalty -= DOESNT_RECEIVE_ALL_TEAMS_PENALTY_VALUE;
+                penalty += DOESNT_RECEIVE_ALL_TEAMS_PENALTY_VALUE;
             }
         } else {
             if ((visitedTeamsCounter != ((int) (gamesCounter / 2)))
                     || (visitedTeamsCounter != (((int) (gamesCounter / 2)) + 1))) {
-                penalty -= DOESNT_RECEIVE_ALL_TEAMS_PENALTY_VALUE;
+                penalty += DOESNT_RECEIVE_ALL_TEAMS_PENALTY_VALUE;
             }
         }
 
@@ -463,12 +469,12 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         //Test if the number of games is even or odd.
         if (gamesCounter % 2 == 0) {
             if (visitsCounter != (gamesCounter / 2)) {
-                penalty -= DOESNT_VISIT_ALL_TEAMS_PENALTY_VALUE;
+                penalty += DOESNT_VISIT_ALL_TEAMS_PENALTY_VALUE;
             }
         } else {
             if ((visitsCounter != ((int) (gamesCounter / 2)))
                     || (visitsCounter != (((int) (gamesCounter / 2)) + 1))) {
-                penalty -= DOESNT_VISIT_ALL_TEAMS_PENALTY_VALUE;
+                penalty += DOESNT_VISIT_ALL_TEAMS_PENALTY_VALUE;
             }
         }
 
@@ -487,10 +493,13 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
             if (!sequence.equalsIgnoreCase(this.awayGame)) {
                 String otherTeamSequence = candidateCalendar.get(new BitString(sequence));
-                String otherTeamGame = otherTeamSequence.substring(gameIndex * nBitsPerTeam, gameIndex * nBitsPerTeam + nBitsPerTeam);
 
-                if (!otherTeamGame.equals(this.awayGame)) {
-                    penalty -= GAMES_MISMATCH_PENALTY_VALUE;
+                if (otherTeamSequence != null) {
+                    String otherTeamGame = otherTeamSequence.substring(gameIndex * nBitsPerTeam, gameIndex * nBitsPerTeam + nBitsPerTeam);
+
+                    if (!otherTeamGame.equals(this.awayGame)) {
+                        penalty += GAMES_MISMATCH_PENALTY_VALUE;
+                    }
                 }
             } else {
                 boolean teamFound = false;
@@ -506,7 +515,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
                 }
 
                 if (!teamFound) {
-                    penalty -= GAMES_MISMATCH_PENALTY_VALUE;
+                    penalty += GAMES_MISMATCH_PENALTY_VALUE;
                 }
             }
 
