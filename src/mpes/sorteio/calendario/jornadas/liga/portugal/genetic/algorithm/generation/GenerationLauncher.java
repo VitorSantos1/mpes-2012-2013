@@ -2,15 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mpes.sorteio.calendário.jornadas.liga.portugal.genetic.algorithm.generation;
+package mpes.sorteio.calendario.jornadas.liga.portugal.genetic.algorithm.generation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Matchday;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Championship;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Game;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Matchday;
 import org.uncommons.maths.binary.BitString;
 import org.uncommons.maths.random.ContinuousUniformGenerator;
 import org.uncommons.maths.random.MersenneTwisterRNG;
@@ -52,7 +52,7 @@ public class GenerationLauncher {
     private Championship c;
     private String algorithmType;
     private HashMap<String, String> algorithmOptions;
-    private static final int TARGET_FITNESS = 500;
+    private static final int TARGET_FITNESS = 0;
 
     public GenerationLauncher(Championship newC, String aT, HashMap<String, String> options) {
         c = newC;
@@ -212,7 +212,7 @@ public class GenerationLauncher {
             }
 
             if (algorithmOptions.containsKey("stagnation")) {
-                s = new Stagnation(Integer.parseInt(algorithmOptions.get("stagnation")), false);
+                s = new Stagnation(Integer.parseInt(algorithmOptions.get("maxNumOfStagGen")), false);
             }
 
             if (algorithmOptions.get("initialPopulation") != null && algorithmOptions.get("elitePopulation") != null) {

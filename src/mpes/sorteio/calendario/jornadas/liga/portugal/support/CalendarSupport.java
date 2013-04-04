@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mpes.sorteio.calendário.jornadas.liga.portugal.support;
+package mpes.sorteio.calendario.jornadas.liga.portugal.support;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

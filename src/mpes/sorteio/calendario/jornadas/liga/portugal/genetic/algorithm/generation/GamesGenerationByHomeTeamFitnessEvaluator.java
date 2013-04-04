@@ -2,15 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mpes.sorteio.calendário.jornadas.liga.portugal.genetic.algorithm.generation;
+package mpes.sorteio.calendario.jornadas.liga.portugal.genetic.algorithm.generation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Matchday;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Team;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Game;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Matchday;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Team;
 import org.uncommons.maths.binary.BitString;
 import org.uncommons.watchmaker.framework.FitnessEvaluator;
 

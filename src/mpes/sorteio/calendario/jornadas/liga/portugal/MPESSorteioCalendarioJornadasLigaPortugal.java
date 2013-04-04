@@ -2,15 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mpes.sorteio.calendário.jornadas.liga.portugal;
+package mpes.sorteio.calendario.jornadas.liga.portugal;
 
-import mpes.sorteio.calendário.jornadas.liga.portugal.gui.MainWindow;
+import mpes.sorteio.calendario.jornadas.liga.portugal.gui.MainWindow;
 
 /**
  *
  * @author vitorsantos
  */
-public class MPESSorteioCalendárioJornadasLigaPortugal {
+public class MPESSorteioCalendarioJornadasLigaPortugal {
 
     /**
      * @param args the command line arguments

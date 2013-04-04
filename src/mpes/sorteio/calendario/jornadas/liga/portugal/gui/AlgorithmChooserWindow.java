@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mpes.sorteio.calendário.jornadas.liga.portugal.gui;
+package mpes.sorteio.calendario.jornadas.liga.portugal.gui;
 
 import java.util.HashMap;
 import javax.swing.JOptionPane;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Championship;
 
 /**
  *
@@ -43,7 +43,7 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
         cancelButton = new javax.swing.JButton();
         okButton = new javax.swing.JButton();
         algorithmParametersScrollPane = new javax.swing.JScrollPane();
-        geneticAlgorithmOptionsPanel = new mpes.sorteio.calendário.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel();
+        geneticAlgorithmOptionsPanel = new mpes.sorteio.calendario.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -186,7 +186,7 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane algorithmParametersScrollPane;
     private javax.swing.JSeparator algorithmParametersSeparator;
     private javax.swing.JButton cancelButton;
-    private mpes.sorteio.calendário.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel geneticAlgorithmOptionsPanel;
+    private mpes.sorteio.calendario.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel geneticAlgorithmOptionsPanel;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mpes.sorteio.calendário.jornadas.liga.portugal.genetic.algorithm.generation;
+package mpes.sorteio.calendario.jornadas.liga.portugal.genetic.algorithm.generation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Game;
 
 /**
  *

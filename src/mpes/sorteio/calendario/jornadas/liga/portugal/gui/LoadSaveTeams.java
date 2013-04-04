@@ -2,14 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mpes.sorteio.calendário.jornadas.liga.portugal.gui;
+package mpes.sorteio.calendario.jornadas.liga.portugal.gui;
 
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
-import mpes.sorteio.calendário.jornadas.liga.portugal.support.LoadXML;
-import mpes.sorteio.calendário.jornadas.liga.portugal.support.SaveToXML;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Championship;
+import mpes.sorteio.calendario.jornadas.liga.portugal.support.LoadXML;
+import mpes.sorteio.calendario.jornadas.liga.portugal.support.SaveToXML;
 
 /**
  *

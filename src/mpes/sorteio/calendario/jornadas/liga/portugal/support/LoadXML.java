@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mpes.sorteio.calendário.jornadas.liga.portugal.support;
+package mpes.sorteio.calendario.jornadas.liga.portugal.support;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Team;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Championship;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Team;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

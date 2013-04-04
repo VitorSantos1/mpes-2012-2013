@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mpes.sorteio.calendário.jornadas.liga.portugal.gui;
+package mpes.sorteio.calendario.jornadas.liga.portugal.gui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,11 +12,11 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import mpes.sorteio.calendário.jornadas.liga.portugal.genetic.algorithm.generation.GenerationLauncher;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Championship;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Game;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Matchday;
-import mpes.sorteio.calendário.jornadas.liga.portugal.model.Team;
+import mpes.sorteio.calendario.jornadas.liga.portugal.genetic.algorithm.generation.GenerationLauncher;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Championship;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Game;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Matchday;
+import mpes.sorteio.calendario.jornadas.liga.portugal.model.Team;
 
 /**
  *
