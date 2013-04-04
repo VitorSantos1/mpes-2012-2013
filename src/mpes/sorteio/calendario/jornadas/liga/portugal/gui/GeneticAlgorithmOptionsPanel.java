@@ -528,6 +528,8 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
             parameters.put("sigmaScalingSelection", "true");
         } else if (stochasticSelectionRadioButton.isSelected()) {
             parameters.put("stochasticSelection", "true");
+        } else {
+            throw new IllegalArgumentException("Deverá escolher uma estratégia de selecção!!");
         }
     }
 
@@ -634,14 +636,12 @@ public class GeneticAlgorithmOptionsPanel extends javax.swing.JPanel {
             } else {
                 try {
                     int elitePopulation = Integer.parseInt(elitismTextField.getText());
-                    
-                    if(elitePopulation < 0){
+
+                    if (elitePopulation < 0) {
                         throw new IllegalArgumentException("Deverá colocar um número válido!");
-                    }
-                    else if(!(elitePopulation < Integer.parseInt(parameters.get("initialPopulation")))){
+                    } else if (!(elitePopulation < Integer.parseInt(parameters.get("initialPopulation")))) {
                         throw new IllegalArgumentException("Deverá colocar um número de elitistas menor que o número total da população!");
-                    }
-                    else{
+                    } else {
                         parameters.put("elitePopulation", Integer.toString(elitePopulation));
                     }
                 } catch (NumberFormatException e) {

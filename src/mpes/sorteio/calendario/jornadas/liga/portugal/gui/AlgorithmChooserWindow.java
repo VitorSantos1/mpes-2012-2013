@@ -78,6 +78,13 @@ public class AlgorithmChooserWindow extends javax.swing.JFrame {
 
         this.pack();
 
+        if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase("Seleccionar...")) {
+            algorithmParametersScrollPane.setVisible(false);
+        } else {
+            algorithmParametersScrollPane.setVisible(true);
+        }
+        this.pack();
+
         if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase("Algoritmo Genético")) {
             geneticAlgorithmOptionsPanel.setVisible(true);
         } else {

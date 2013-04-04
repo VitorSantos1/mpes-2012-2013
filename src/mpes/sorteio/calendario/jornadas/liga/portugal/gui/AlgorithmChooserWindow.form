@@ -126,9 +126,9 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="mpes.sorteio.calend&#xe1;rio.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel" name="geneticAlgorithmOptionsPanel">
+            <Component class="mpes.sorteio.calendario.jornadas.liga.portugal.gui.GeneticAlgorithmOptionsPanel" name="geneticAlgorithmOptionsPanel">
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase(&quot;Algoritmo Gen&#xe9;tico&quot;)) {&#xa;            geneticAlgorithmOptionsPanel.setVisible(true);&#xa;        } else {&#xa;            geneticAlgorithmOptionsPanel.setVisible(false);&#xa;        }&#xa;&#xa;        this.pack();"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase(&quot;Seleccionar...&quot;)) {&#xa;            algorithmParametersScrollPane.setVisible(false);&#xa;        } else {&#xa;            algorithmParametersScrollPane.setVisible(true);&#xa;        }&#xa;        this.pack();&#xa;&#xa;        if (((String) algorithmOptionComboBox.getSelectedItem()).equalsIgnoreCase(&quot;Algoritmo Gen&#xe9;tico&quot;)) {&#xa;            geneticAlgorithmOptionsPanel.setVisible(true);&#xa;        } else {&#xa;            geneticAlgorithmOptionsPanel.setVisible(false);&#xa;        }&#xa;&#xa;        this.pack();"/>
               </AuxValues>
             </Component>
           </SubComponents>
