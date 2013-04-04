@@ -12,7 +12,7 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import mpes.sorteio.calendario.jornadas.liga.portugal.genetic.algorithm.generation.GenerationLauncher;
+import mpes.sorteio.calendario.jornadas.liga.portugal.generation.GenerationLauncher;
 import mpes.sorteio.calendario.jornadas.liga.portugal.model.Championship;
 import mpes.sorteio.calendario.jornadas.liga.portugal.model.Game;
 import mpes.sorteio.calendario.jornadas.liga.portugal.model.Matchday;

@@ -2,8 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package mpes.sorteio.calendario.jornadas.liga.portugal.genetic.algorithm.generation;
+package mpes.sorteio.calendario.jornadas.liga.portugal.generation;
 
+import mpes.sorteio.calendario.jornadas.liga.portugal.generation.genetic.algorithm.CustomBitStringCrossover;
+import mpes.sorteio.calendario.jornadas.liga.portugal.generation.genetic.algorithm.GamesGenerationByHomeTeamFitnessEvaluator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
