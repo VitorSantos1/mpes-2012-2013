@@ -353,8 +353,8 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         String firstGame = aCalendar.substring(0, nBitsPerTeam);
         String lastGame = aCalendar.substring(aCalendar.length() - nBitsPerTeam, aCalendar.length());
 
-        if ((firstGame.equalsIgnoreCase(awayGame) && lastGame.equalsIgnoreCase(awayGame))
-                || (!firstGame.equalsIgnoreCase(awayGame) && !lastGame.equalsIgnoreCase(awayGame))) {
+        if ((firstGame.equalsIgnoreCase(awayGame) && !lastGame.equalsIgnoreCase(awayGame))
+                || (!firstGame.equalsIgnoreCase(awayGame) && lastGame.equalsIgnoreCase(awayGame))) {
             penalty += BOTH_GAMES_IN_HOME_OR_AWAY_PENALTY_VALUE;
         }
 
