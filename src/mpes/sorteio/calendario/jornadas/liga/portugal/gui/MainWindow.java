@@ -30,7 +30,7 @@ public class MainWindow extends javax.swing.JFrame {
     private Championship c;
     private DefaultListModel dlm;
     private String algorithmType = "";
-    private HashMap<String, String> algorithmOptions = new HashMap<String, String>();
+    private HashMap<String, String> algorithmOptions;
 
     /**
      * Creates new form MainWindow
@@ -245,9 +245,13 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addTeamAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addTeamAction
-        SingleTeamWindow stw = new SingleTeamWindow(c);
         this.setVisible(false);
-        stw.setVisible(true);
+
+        if (algorithmType.equals("") || algorithmOptions == null) {
+            new SingleTeamWindow(c).setVisible(true);
+        } else {
+            new SingleTeamWindow(c, algorithmType, algorithmOptions).setVisible(true);
+        }
     }//GEN-LAST:event_addTeamAction
 
     private void editTeamAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editTeamAction
@@ -262,9 +266,11 @@ public class MainWindow extends javax.swing.JFrame {
         }
 
         if (!teamToEdit.getTeamName().equals("")) {
-            SingleTeamWindow stw = new SingleTeamWindow(c, teamToEdit);
-            this.setVisible(false);
-            stw.setVisible(true);
+            if (algorithmType.equals("") || algorithmOptions == null) {
+                new SingleTeamWindow(c, teamToEdit).setVisible(true);
+            } else {
+                new SingleTeamWindow(c, teamToEdit, algorithmType, algorithmOptions).setVisible(true);
+            }
         } else {
             JOptionPane.showMessageDialog(this,
                     "Deverá seleccionar uma equipa para edição.",
@@ -315,12 +321,12 @@ public class MainWindow extends javax.swing.JFrame {
             //Prepare Table and insert data
             //Although Vector library is obsolete, it's necessary to construct the table...
             DefaultTableModel dtm = (DefaultTableModel) calendarTable.getModel();
-            
+
             Vector<String> calendarColumns = new Vector<String>();
             calendarColumns.add("Jornada");
             calendarColumns.add("Equipa Visitada");
             calendarColumns.add("Equipa Visitante");
-            
+
             dtm.addRow(calendarColumns);
 
             Integer[] matchdayIndexes = new Integer[finalCalendar.keySet().size()];
@@ -339,16 +345,15 @@ public class MainWindow extends javax.swing.JFrame {
                     }
 
                     calendarRow.add(gamesOfThisMatchday.get(i).getVisitedTeam().getTeamName());
-                    
-                    if(gamesOfThisMatchday.get(i).getVisitorTeam() == null){
+
+                    if (gamesOfThisMatchday.get(i).getVisitorTeam() == null) {
                         calendarRow.add("Indeterminado");
-                    }
-                    else{
+                    } else {
                         calendarRow.add(gamesOfThisMatchday.get(i).getVisitorTeam().getTeamName());
                     }
 
                     dtm.addRow(calendarRow);
-                    
+
                     System.out.println("Jornada " + Integer.toString(index) + ": " + calendarRow.get(1) + " vs. " + calendarRow.get(2));
                 }
             }
@@ -356,7 +361,7 @@ public class MainWindow extends javax.swing.JFrame {
             dtm.fireTableDataChanged();
             this.pack();
             System.out.println("Terminado!!!");
-            
+
             //At the end of generation, the main window should be able to print the results into the jTable.
             //Also, printing metadata like number os generations and time consumed must be useful to show...
         } else {

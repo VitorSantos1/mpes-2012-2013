@@ -5,6 +5,7 @@
 package mpes.sorteio.calendario.jornadas.liga.portugal.gui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -21,6 +22,8 @@ public class SingleTeamWindow extends javax.swing.JFrame {
     private Team editableTeam;
     private DefaultListModel dlm;
     private String errorMsg = "";
+    private String algorithmType = "";
+    private HashMap<String, String> algorithmOptions;
 
     /**
      * Creates new form SingleTeamWindow
@@ -33,6 +36,26 @@ public class SingleTeamWindow extends javax.swing.JFrame {
     public SingleTeamWindow(Championship newC, Team newEditableTeam) {
         c = newC;
         editableTeam = newEditableTeam;
+        initComponents();
+
+        teamNameTextField.setText(editableTeam.getTeamName());
+        teamTypeComboBox.setSelectedItem((String) editableTeam.getTeamType());
+    }
+
+    public SingleTeamWindow(Championship newC, String type, HashMap<String, String> options) {
+        c = newC;
+        algorithmType = type;
+        algorithmOptions = options;
+
+        initComponents();
+    }
+
+    public SingleTeamWindow(Championship newC, Team newEditableTeam, String type, HashMap<String, String> options) {
+        c = newC;
+        editableTeam = newEditableTeam;
+        algorithmType = type;
+        algorithmOptions = options;
+
         initComponents();
 
         teamNameTextField.setText(editableTeam.getTeamName());
@@ -199,7 +222,11 @@ public class SingleTeamWindow extends javax.swing.JFrame {
             } else if (editableTeam != null) {
                 if (editEntryValidation()) {
                     this.setVisible(false);
-                    new MainWindow(c).setVisible(true);
+                    if (algorithmType.equals("") || algorithmOptions == null) {
+                        new MainWindow(c).setVisible(true);
+                    } else {
+                        new MainWindow(c, algorithmType, algorithmOptions).setVisible(true);
+                    }
                 } else {
                     JOptionPane.showMessageDialog(this,
                             errorMsg,
@@ -217,7 +244,12 @@ public class SingleTeamWindow extends javax.swing.JFrame {
 
     private void cancelAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelAction
         this.setVisible(false);
-        new MainWindow(c).setVisible(true);
+
+        if (algorithmType.equals("") || algorithmOptions == null) {
+            new MainWindow(c).setVisible(true);
+        } else {
+            new MainWindow(c, algorithmType, algorithmOptions).setVisible(true);
+        }
     }//GEN-LAST:event_cancelAction
 
     private void addNeighbourTeamAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addNeighbourTeamAction
@@ -242,7 +274,7 @@ public class SingleTeamWindow extends javax.swing.JFrame {
 
     private void removeNeighbourTeamAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeNeighbourTeamAction
         String teamToDelete = (String) neighbourTeamsList.getSelectedValue();
-        
+
         if (teamToDelete != null && !teamToDelete.equals("")) {
             Object[] options = {"Sim", "Não"};
             int optionIndex = JOptionPane.showOptionDialog(this,
@@ -258,8 +290,7 @@ public class SingleTeamWindow extends javax.swing.JFrame {
                     }
                 }
             }
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(this,
                     "Deverá seleccionar uma equipa para eliminação.",
                     "Erro",
