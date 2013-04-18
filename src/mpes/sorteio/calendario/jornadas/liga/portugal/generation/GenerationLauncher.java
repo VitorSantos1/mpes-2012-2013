@@ -126,7 +126,6 @@ public class GenerationLauncher {
     }
 
     //Initialization of generation launcher
-    @SuppressWarnings("UnusedAssignment")
     public void start() {
         if (algorithmType.equals("GA")) {
             CustomBitStringFactory cbsf = new CustomBitStringFactory(this.determineGeneSize(), c.getTeams().size() + 1, this.determineTeamGeneSize(c.getTeams().size()));
