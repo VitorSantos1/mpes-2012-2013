@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import mpes.sorteio.calendario.jornadas.liga.portugal.generation.genetic.algorithm.CustomBitStringFactory;
 import mpes.sorteio.calendario.jornadas.liga.portugal.model.Championship;
 import mpes.sorteio.calendario.jornadas.liga.portugal.model.Game;
 import mpes.sorteio.calendario.jornadas.liga.portugal.model.Matchday;
@@ -121,14 +122,18 @@ public class GenerationLauncher {
 
         //GA-HT: equipa * n de equipas adversárias * n de equipas total
         //GA-M: jornada * n de equipas total * n de jornadas (= n de equipas - 1)
+<<<<<<< HEAD
         return teamGeneSize * (c.getTeams().size() -1) * c.getTeams().size();
+=======
+        return teamGeneSize * (c.getTeams().size() - 1) * c.getTeams().size();
+>>>>>>> unstable
     }
 
     //Initialization of generation launcher
     @SuppressWarnings("UnusedAssignment")
     public void start() {
         if (algorithmType.equals("GA")) {
-            BitStringFactory bsf = new BitStringFactory(this.determineGeneSize());
+            CustomBitStringFactory cbsf = new CustomBitStringFactory(this.determineGeneSize(), c.getTeams().size() + 1, this.determineTeamGeneSize(c.getTeams().size()));
             List<EvolutionaryOperator<BitString>> operators = new LinkedList<EvolutionaryOperator<BitString>>();
 
             //TODO: Operators to experiment different parameters
@@ -191,7 +196,7 @@ public class GenerationLauncher {
 
             GamesGenerationByHomeTeamFitnessEvaluator ggbhtfe = new GamesGenerationByHomeTeamFitnessEvaluator(c.getTeams(), this.determineTeamGeneSize(c.getTeams().size()));
             
-            GenerationalEvolutionEngine<BitString> gee = new GenerationalEvolutionEngine<BitString>(bsf,
+            GenerationalEvolutionEngine<BitString> gee = new GenerationalEvolutionEngine<BitString>(cbsf,
                     pipeline,
                     ggbhtfe,
                     ss,
