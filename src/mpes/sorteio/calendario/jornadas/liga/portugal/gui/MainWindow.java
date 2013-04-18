@@ -334,7 +334,7 @@ public class MainWindow extends javax.swing.JFrame {
 
             for (Integer index : matchdayIndexes) {
                 ArrayList<Game> gamesOfThisMatchday = finalCalendar.get(index).getGameList();
-
+                
                 for (int i = 0; i < gamesOfThisMatchday.size(); i++) {
                     Vector<String> calendarRow = new Vector<String>();
 

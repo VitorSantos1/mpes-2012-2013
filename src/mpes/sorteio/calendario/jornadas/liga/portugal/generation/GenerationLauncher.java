@@ -121,7 +121,7 @@ public class GenerationLauncher {
 
         //GA-HT: equipa * n de equipas adversárias * n de equipas total
         //GA-M: jornada * n de equipas total * n de jornadas (= n de equipas - 1)
-        return teamGeneSize * c.getTeams().size() * c.getTeams().size();
+        return teamGeneSize * (c.getTeams().size() -1) * c.getTeams().size();
     }
 
     //Initialization of generation launcher

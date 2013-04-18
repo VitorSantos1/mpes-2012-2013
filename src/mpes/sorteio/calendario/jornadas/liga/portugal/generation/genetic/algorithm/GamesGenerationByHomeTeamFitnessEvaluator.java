@@ -96,9 +96,9 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
 
         HashMap<BitString, String> candidateCalendar = new HashMap<BitString, String>();
 
-        for (BitString key : keyArray) {
-            candidateCalendar.put(key, stringT.substring(0, nBitsPerTeam * keyArray.length));
-            stringT = stringT.substring(nBitsPerTeam * keyArray.length);
+        for (int i = 0; i < keyArray.length; i++) {
+            candidateCalendar.put(keyArray[i], stringT.substring(0, nBitsPerTeam * (keyArray.length - 1)));
+            stringT = stringT.substring(nBitsPerTeam * (keyArray.length - 1));
         }
 
         return candidateCalendar;
@@ -112,7 +112,7 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
          * lower number of bits than nBitsPerTeam, add the remainder to the
          * left. 3. Select a random team for the sequence.
          */
-        int nElemsInHash = teamsByGene.size();
+        int nElemsInHash = teamsByGene.size() + 1;
         String newGene = Integer.toBinaryString(nElemsInHash);
 
         while (newGene.length() < nBitsPerTeam) {
@@ -132,8 +132,8 @@ public class GamesGenerationByHomeTeamFitnessEvaluator implements FitnessEvaluat
         HashMap<Integer, Matchday> translatedCalendar = new HashMap<Integer, Matchday>();
 
         for (int i = 0; i < keyArray.length; i++) {
-            String theCalendar = result.toString().substring(i * keyArray.length,
-                    i * keyArray.length + nBitsPerTeam * keyArray.length);
+            String theCalendar = result.toString().substring(i * (keyArray.length - 1),
+                    i * (keyArray.length - 1) + nBitsPerTeam * (keyArray.length - 1));
 
             int gameIndex = 1;
 
