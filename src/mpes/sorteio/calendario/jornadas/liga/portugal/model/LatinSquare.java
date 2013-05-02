@@ -279,11 +279,7 @@ public class LatinSquare {
      * @return the number of slots
      */
     public int numSlots() {
-        if (numTeams % 2 == 0) {
-            return numTeams - 1;
-        } else {
-            return numTeams;
-        }
+        return numSlots(numTeams);
     }
 
     /**
@@ -295,6 +291,19 @@ public class LatinSquare {
         return numTeams;
     }
 
+    /**
+     * Gets the number of slots in the championship
+     *
+     * @param numTeams The number of teams in the championship
+     * @return the number of slots
+     */
+    public static int numSlots(int numTeams) {
+        if (numTeams % 2 == 0) {
+            return numTeams - 1;
+        } else {
+            return numTeams;
+        }
+    }
     /*
      public static void main(String[] args) {
      LatinSquare sq = new LatinSquare(6);
