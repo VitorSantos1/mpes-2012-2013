@@ -84,7 +84,7 @@ public class RoundRobinTabuSearch {
     }
 
     public static void main(String[] args) {
-        final RoundRobinTabuSearch rrts = new RoundRobinTabuSearch(100, 10, 10);
+        final RoundRobinTabuSearch rrts = new RoundRobinTabuSearch(1000, 10, 20);
         rrts.solve();
     }
 }

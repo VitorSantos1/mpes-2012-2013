@@ -15,7 +15,7 @@ public class RRTSSolution extends SolutionAdapter {
     /**
      * The latin square with the schedule
      */
-    final LatinSquare square;
+    LatinSquare square;
 
     /**
      * Creates a solution based on an existing schedule
@@ -27,7 +27,9 @@ public class RRTSSolution extends SolutionAdapter {
 
     @Override
     public Object clone() {
-        return new RRTSSolution(new LatinSquare(square));
+        //System.out.println("CLONE");
+        RRTSSolution sol = (RRTSSolution) super.clone();
+        sol.square= new LatinSquare(square);
+        return sol;
     }
-    
 }

@@ -30,7 +30,7 @@ public class RRTSObjectiveFunction implements ObjectiveFunction {
             fitness = LatinSquareFitness.fitness(square); 
             tsmove.undo((RRTSSolution) soln);
         }
-        System.out.println("Fitness: " + fitness);
+        //System.out.println("Fitness: " + fitness);
         return new double[]{fitness};
     }
 }
